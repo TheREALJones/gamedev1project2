@@ -256,12 +256,12 @@ testState.prototype.update = function() {
 	if(dKey.isDown)
 	{
 		if(leftShoulderAngle < 45)
-			rightShoulderAngle++;
+			leftShoulderAngle++;
 	}
 	else if(fKey.isDown)
 	{
 		if(leftShoulderAngle > -225)
-			rightShoulderAngle--;
+			leftShoulderAngle--;
 	}
 	
 	if(uKey.isDown)

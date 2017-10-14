@@ -15,15 +15,19 @@ stairState.prototype.create = function() {
 	game.physics.p2.setImpactEvents(true);
 	game.physics.p2.gravity.y = 100;
 
-	this.steps = game.add.group();
-	this.steps.enableBody = true;
-	
-	let step = game.add.graphics();
-	step.beginFill(0xFFFFFF);
-	step.drawRect(0, 358, 283, 750-358);
-	steps.add(step);
+	let steps = game.add.group();
+	steps.enableBody = true;
 	
 	this.terrainCollisionGroup = game.physics.p2.createCollisionGroup();
+	
+	stairState.addStep(0, 358, 283, 750, this.terrainCollisionGroup);
+	stairState.addStep(283, 411, 377, 750, this.terrainCollisionGroup);
+	stairState.addStep(377, 464, 471, 750, this.terrainCollisionGroup);
+	stairState.addStep(471, 518, 565, 750, this.terrainCollisionGroup);
+	stairState.addStep(565, 571, 660, 750, this.terrainCollisionGroup);
+	stairState.addStep(660, 625, 1150, 750, this.terrainCollisionGroup);
+	stairState.addStep(1150, 679, 1245, 750, this.terrainCollisionGroup);
+	stairState.addStep(1245, 732, 1334, 750, this.terrainCollisionGroup);
 	
 	let restartButton = game.add.button(1200, 40, "f",  stairState.resetButtonPress);
 	
@@ -41,6 +45,17 @@ stairState.prototype.create = function() {
 
 	this.timerText = game.add.text(50, 40, "Time: ");
 	this.startTime = game.time.totalElapsedSeconds();
+}
+
+// x1, y1 is the upper left corner of the rectangle.
+// x2, y2 is the lower right corner of the rectangle.
+stairState.addStep = function(x1, y1, x2, y2, collisionGroup) {
+	let step = game.add.sprite(x1, y1, "");
+	game.physics.p2.enable(step);
+	step.body.setRectangle(x2 - x1, y2 - y1, (x2 - x1)/2, (y2-y1)/2);
+	//step.body.debug = true;
+	step.body.static = true;
+	step.body.setCollisionGroup(collisionGroup);
 }
 
 stairState.prototype.update = function() {

@@ -12,33 +12,7 @@
 </head>
 <body>
 
-<script type="text/javascript">
-
-	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { create: create, update: update });
-
-	
-	function create() {
-
-		let style = {
-			font: "64px Arial",
-	        fill: "#ffffff",
-	        align: "center"
-	    }
-	    let text = game.add.text(game.world.centerX, game.world.centerY, "Hello, world!", style);
-
-	    text.anchor.setTo(0.5, 0.5);
-
-	}
-
-	function update() {
-
-
-	}
-
-
-	
-
-</script>
+<script src="js/physicstest.js"></script>
 
 </body>
 </html>

@@ -3,7 +3,8 @@ let gameplayState = function(){
 }
 
 gameplayState.prototype.preload = function(){
-
+	game.load.image("stairs", "assets/stairs.png");
+	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png")
 }
 
 let mouseBody;

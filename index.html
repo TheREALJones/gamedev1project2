@@ -7,6 +7,7 @@
 	<script type="text/javascript" src="js/title.js"></script>
 	<script type="text/javascript" src="js/stair.js"></script>
     <script type="text/javascript" src="js/physicstest.js"></script>
+	<script type="text/javascript" src="js/gameplay.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -22,6 +23,7 @@
 	game.state.add("PhysicsTest", testState)
 	game.state.add("TitleScreen", titleState);
 	game.state.add("Stairs", stairState);
+	game.state.add("DragTest", gameplayState);
 	game.state.start("TitleScreen");
 
 </script>

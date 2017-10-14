@@ -28,7 +28,7 @@ stairState.prototype.create = function() {
 }
 
 stairState.prototype.update = function() {
-	let elapsedTime = (game.time.totalElapsedSeconds() - this.startTime);
+	let elapsedTime = game.math.roundTo((game.time.totalElapsedSeconds() - this.startTime), -2);
 	let timeString = "Time: " + elapsedTime;
 	this.timerText.setText(timeString);
 }

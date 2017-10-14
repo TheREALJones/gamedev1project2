@@ -4,6 +4,8 @@
 	<meta charset="UTF-8" />
     <title>Learning Phaser</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<script type="text/javascript" src="js/title.js"></script>
+	<script type="text/javascript" src="js/stair.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -14,29 +16,11 @@
 
 <script type="text/javascript">
 
-	var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { create: create, update: update });
+	let game = new Phaser.Game(1334, 750, Phaser.AUTO);
 
-	
-	function create() {
-
-		let style = {
-			font: "64px Arial",
-	        fill: "#ffffff",
-	        align: "center"
-	    }
-	    let text = game.add.text(game.world.centerX, game.world.centerY, "Hello, world!", style);
-
-	    text.anchor.setTo(0.5, 0.5);
-
-	}
-
-	function update() {
-
-
-	}
-
-
-	
+	game.state.add("TitleScreen", titleState);
+	game.state.add("Stairs", stairState);
+	game.state.start("TitleScreen");
 
 </script>
 

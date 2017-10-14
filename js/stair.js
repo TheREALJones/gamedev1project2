@@ -9,6 +9,22 @@ stairState.prototype.preload = function() {
 stairState.prototype.create = function() {
 	game.add.image(0, 0, "stairs");
 	
+	game.world.setBounds(0,0,1344,750);
+	game.physics.startSystem(Phaser.Physics.P2JS);
+	
+	game.physics.p2.setImpactEvents(true);
+	game.physics.p2.gravity.y = 100;
+
+	this.steps = game.add.group();
+	this.steps.enableBody = true;
+	
+	let step = game.add.graphics();
+	step.beginFill(0xFFFFFF);
+	step.drawRect(0, 358, 283, 750-358);
+	steps.add(step);
+	
+	this.terrainCollisionGroup = game.physics.p2.createCollisionGroup();
+	
 	let restartButton = game.add.button(1200, 40, "f",  stairState.resetButtonPress);
 	
 	let rectangle = game.add.graphics();

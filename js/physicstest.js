@@ -1,6 +1,8 @@
-let game = new Phaser.Game(1344, 750, Phaser.AUTO, 'phaser-example', { preload: preload,create: create, update: update });
+let testState = function() {
 	
-function preload() {
+}
+
+testState.prototype.preload = function() {
 	game.load.image('plrtrs', 'assets/Toby Philpott Pieces/Torso.png');
 	game.load.image('plrub', 'assets/Toby Philpott Pieces/Upper_Body.png');
 	game.load.image('plrlth', 'assets/Toby Philpott Pieces/L_upper_thigh.png');
@@ -27,7 +29,7 @@ let oKey;
 let pKey;
 
 
-function create() {
+testState.prototype.create = function() {
 	
 	
 	game.world.setBounds(0,0,1344,750);
@@ -128,7 +130,7 @@ let leftThighAngle = 0;
 let rightThighAngle = 0;
 let rightKneeAngle = 0;
 
-function update() {
+testState.prototype.update = function() {
 	if(wKey.isDown)
 	{
 		if(leftKneeAngle < 90)

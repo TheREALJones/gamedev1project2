@@ -25,6 +25,19 @@ titleState.prototype.create = function() {
 	rectangle.addChild(startText);
 	startText.centerX = rectangle.width/2;
 	startText.centerY = rectangle.height/2;
+	
+	let debugButton = game.add.button(450, 90, "f",  titleState.debugPressed);
+	rectangle = game.add.graphics();
+	debugButton.addChild(rectangle);
+	rectangle.beginFill(0xEEEEEE);
+	rectangle.drawRect(0, 0, 100, 40);
+	rectangle.centerX = debugButton.width/2;
+	rectangle.centerY = debugButton.height/2;
+	
+	let debugText = game.add.text(0, 0, "Test");
+	rectangle.addChild(debugText);
+	startText.centerX = rectangle.width/2;
+	startText.centerY = rectangle.height/2;
 }
 
 titleState.prototype.update = function() {
@@ -34,5 +47,11 @@ titleState.prototype.update = function() {
 titleState.buttonPressed = function(thingy, pointer, isOver) {
 	if (isOver === true) {
 		game.state.start("Stairs");
+	}
+}
+
+titleState.debugPressed = function(thingy, pointer, isOver) {
+	if (isOver === true) {
+		game.state.start("PhysicsTest");
 	}
 }

@@ -2,8 +2,11 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-    <title>Learning Phaser</title>
+    <title>Tobi Philpot</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+	<script type="text/javascript" src="js/title.js"></script>
+	<script type="text/javascript" src="js/stair.js"></script>
+  <script type="text/javascript" src="js/physicstest.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -12,7 +15,16 @@
 </head>
 <body>
 
-<script src="js/physicstest.js"></script>
+<script type="text/javascript">
+
+	let game = new Phaser.Game(1334, 750, Phaser.AUTO);
+  
+	game.state.add("TitleScreen", titleState);
+	game.state.add("Stairs", stairState);
+	game.state.start("TitleScreen");
+
+</script>
+
 
 </body>
 </html>

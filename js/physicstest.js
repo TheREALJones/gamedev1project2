@@ -45,8 +45,6 @@ let iKey;
 let dKey;
 let fKey;
 
-let point;
-
 
 testState.prototype.create = function() {
 	
@@ -77,24 +75,12 @@ testState.prototype.create = function() {
 	iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
 	dKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
 	fKey = game.input.keyboard.addKey(Phaser.KeyCode.F);
-
-	mouseBody = new p2.Body();
-    game.physics.p2.world.addBody(mouseBody);
-
-	game.input.onDown.add(this.click);
-	game.input.addMoveCallback(this.move)
 }
 
 function setupPlayer() {
 	
 	let leftUpperArm = game.add.sprite(500,450,'plrlua');
 	player.add(leftUpperArm);
-	
-	point = game.add.graphics(0, 0);
-	point.beginFill(0xFF0000, 1);
-    point.drawCircle(500, 450, 50);
-
-
 	let leftLowerArm = game.add.sprite(500,500,'plrlla');
 	player.add(leftLowerArm);
 	let leftHand = game.add.sprite(500,550,'plrlha');
@@ -208,7 +194,6 @@ function setupPlayer() {
 	
 	let rightWristJoint = game.physics.p2.createRevoluteConstraint(rightLowerArm,[0,45],rightHand,[0,-15]);
 	rightWristJoint.setLimits(-Math.PI/2,Math.PI/2);
-
 }
 
 let leftKneeAngle = 0;
@@ -220,35 +205,8 @@ let leftElbowAngle = 0;
 let rightShoulderAngle = 0;
 let rightElbowAngle = 0;
 
-testState.prototype.click = function(pointer) {
-
-    let parts = game.physics.p2.hitTest(pointer.position, [point]);
-    
-    let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
-    
-    if (parts.length){
-        let clickedBody = parts[0];
-        
-        let localPointInBody = [0, 0];
-        // this function takes physicsPos and coverts it to the body's local coordinate system
-        clickedBody.toLocalFrame(localPointInBody, physicsPos);
-        
-        // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
-    }   
-
-}
-testState.prototype.move = function(pointer) {
-
-    // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
-    mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
-    mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
-
-}
-
-testState.prototype.update = function(pointer) {
-
-	if(mouseBody.position[0] > game.physics.p2.pxmi(pointer.position.x))
+testState.prototype.update = function() {
+	if(wKey.isDown)
 	{
 		if(leftKneeAngle < 135)
 			leftKneeAngle++;

@@ -106,7 +106,6 @@ testState.prototype.create = function() {
 testState.prototype.click = function(pointer) {
 
 	//Add any other drag selectors to this.
-	button.body.dynamic = true;
     let bodies = game.physics.p2.hitTest(pointer.position, [button]);
     
     // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
@@ -118,7 +117,7 @@ testState.prototype.click = function(pointer) {
         let localPointInBody = [0, 0];
         // this function takes physicsPos and coverts it to the body's local coordinate system
         clickedBody.toLocalFrame(localPointInBody, physicsPos);
-        
+        button.body.dynamic = true;
         // use a revoluteContraint to attach mouseBody to the clicked body
         mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
     }   
@@ -138,6 +137,7 @@ testState.prototype.release = function(){
 
     // remove constraint from object's body
     game.physics.p2.removeConstraint(mouseConstraint);
+	button.body.setZeroVelocity();
 	button.body.kinematic = true;
 
 }

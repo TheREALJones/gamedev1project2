@@ -122,9 +122,8 @@ testState.prototype.click = function(pointer) {
         let localPointInBody = [0, 0];
         // this function takes physicsPos and coverts it to the body's local coordinate system
         clickedBody.toLocalFrame(localPointInBody, physicsPos);
-        
         // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
+        mouseConstraint = game.physics.p2.createLockConstraint(mouseBody, clickedBody);
     }   
 
 }

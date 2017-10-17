@@ -18,6 +18,10 @@ testState.prototype.preload = function() {
 	game.load.image('plrrth', 'assets/Toby Philpott Pieces/R_upper_thigh.png');
 	game.load.image('plrrll', 'assets/Toby Philpott Pieces/R_lower_leg.png');
 	game.load.image('plrrft', 'assets/Toby Philpott Pieces/R_foot.png');
+	
+	
+	game.load.image("stairs", "assets/stairs.png");
+	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png")
 }	
 
 let player;
@@ -45,6 +49,8 @@ let iKey;
 let dKey;
 let fKey;
 
+let mouseBody;
+let mouseConstraint;
 
 testState.prototype.create = function() {
 	
@@ -54,7 +60,8 @@ testState.prototype.create = function() {
 	
 	game.physics.p2.setImpactEvents(true);
 	game.physics.p2.gravity.y = 240;
-	game.physics.p2.friction = 2.0;
+	game.physics.p2.friction = 8.0;
+	
 	
 	player = game.add.group();
 	
@@ -75,6 +82,59 @@ testState.prototype.create = function() {
 	iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
 	dKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
 	fKey = game.input.keyboard.addKey(Phaser.KeyCode.F);
+	
+	// Drag code	
+	
+	head = game.add.sprite(game.world.centerX, game.world.centerY, "head");
+	head.scale.setTo(0.5,0.5);
+	
+	game.physics.p2.enable(head, false);
+	
+	// create physics body for mouse which we will use for dragging clicked bodies
+    mouseBody = new p2.Body();
+    game.physics.p2.world.addBody(mouseBody);
+        
+    // attach pointer events
+    game.input.onDown.add(this.click);
+    game.input.onUp.add(this.release);
+    game.input.addMoveCallback(this.move);
+}
+
+testState.prototype.click = function(pointer) {
+
+	//Add any other drag selectors to this.
+    let bodies = game.physics.p2.hitTest(pointer.position, [head]);
+    
+    // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
+    let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
+    
+    if (bodies.length){
+        let clickedBody = bodies[0];
+        
+        let localPointInBody = [0, 0];
+        // this function takes physicsPos and coverts it to the body's local coordinate system
+        clickedBody.toLocalFrame(localPointInBody, physicsPos);
+        
+        // use a revoluteContraint to attach mouseBody to the clicked body
+        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
+    }   
+
+}
+
+testState.prototype.move = function(pointer) {
+
+    // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
+    mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
+    mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
+
+}
+
+
+testState.prototype.release = function(){
+
+    // remove constraint from object's body
+    game.physics.p2.removeConstraint(mouseConstraint);
+
 }
 
 function setupPlayer() {

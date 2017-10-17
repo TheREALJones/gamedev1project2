@@ -171,7 +171,7 @@ testState.prototype.update = function() {
 	let rArmPsi;
 	
 	let rArmX = upperbody.position.x - button.position.x;
-	let rArmY = upperbody.position.y - button.position.y;
+	let rArmY = upperbody.position.y + (Math.cos(upperbody.angle/180*Math.PI))* (-50) - button.position.y;
 	
 	rArmTheta = 180/Math.PI * Math.atan2(rArmX,rArmY);
 	
@@ -185,7 +185,7 @@ testState.prototype.update = function() {
 	else
 		rArmPsi = 180;
 	
-	let desiredRArmAngl = (baseRArmAngl + (180 - rArmPsi) / 2);
+	let desiredRArmAngl = (-180 - baseRArmAngl + (180 - rArmPsi) / 2);
 	if(desiredRArmAngl > 45)
 		rightShoulderAngle = 45;
 	else if(desiredRArmAngl < -225)

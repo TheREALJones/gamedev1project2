@@ -29,6 +29,9 @@ let player;
 let playerCollisionGroup;
 let terrainCollisionGroup;
 
+let upperbody;
+let hips;
+
 let leftHipJoint;
 let leftKneeJoint;
 let rightHipJoint;
@@ -145,9 +148,9 @@ function setupPlayer() {
 	player.add(leftLowerArm);
 	let leftHand = game.add.sprite(500,550,'plrlha');
 	player.add(leftHand);
-	let upperbody = game.add.sprite(500,400,'plrub');
+	upperbody = game.add.sprite(500,400,'plrub');
 	player.add(upperbody);
-	let hips = game.add.sprite(500,500,'plrhip');
+	hips = game.add.sprite(500,500,'plrhip');
 	player.add(hips);
 	let torso = game.add.sprite(500,450,'plrtrs');
 	player.add(torso);
@@ -215,6 +218,8 @@ function setupPlayer() {
 		player.children[i].body.collides(terrainCollisionGroup);
 	}
 	
+	torso.body.kinematic = true;
+	
 	game.physics.p2.createLockConstraint(upperbody,torso,[0,-50],0);
 	
 	game.physics.p2.createLockConstraint(torso,hips,[0,-40],0);
@@ -266,6 +271,35 @@ let rightShoulderAngle = 0;
 let rightElbowAngle = 0;
 
 testState.prototype.update = function() {
+	//Drag Arm test Code
+	let rArmTheta;
+	let rArmPsi;
+	
+	let rArmX = upperbody.position.x - head.position.x;
+	let rArmY = upperbody.position.y - head.position.y;
+	
+	rArmTheta = 180/Math.PI * Math.atan2(rArmX,rArmY);
+	
+	let baseRArmAngl = rArmTheta - upperbody.angle - 90;
+	
+	let armLength = 90;
+	
+	let desiredLength = Math.sqrt(rArmX * rArmX + rArmY * rArmY);
+	if( desiredLength < 2 * armLength)
+		rArmPsi = 180/Math.PI * Math.acos(1 - (desiredLength*desiredLength)/(2*armLength * armLength));
+	else
+		rArmPsi = 180;
+	
+	let desiredRArmAngl = (baseRArmAngl + (180 - rArmPsi) / 2);
+	if(desiredRArmAngl > 45)
+		rightShoulderAngle = 45;
+	else if(desiredRArmAngl < -225)
+		rightShoulderAngle = -225;
+	else
+		rightShoulderAngle = desiredRArmAngl;
+	
+	rightElbowAngle = rArmPsi;
+	
 	if(wKey.isDown)
 	{
 		if(leftKneeAngle < 135)
@@ -302,17 +336,6 @@ testState.prototype.update = function() {
 		if(rightThighAngle < 0)
 			rightThighAngle++;
 		
-	if(eKey.isDown)
-	{
-		if(rightShoulderAngle < 45)
-			rightShoulderAngle++;
-	}
-	else if(rKey.isDown)
-	{
-		if(rightShoulderAngle > -225)
-			rightShoulderAngle--;
-	}
-	
 	if(dKey.isDown)
 	{
 		if(leftShoulderAngle < 45)
@@ -323,15 +346,6 @@ testState.prototype.update = function() {
 		if(leftShoulderAngle > -225)
 			leftShoulderAngle--;
 	}
-	
-	if(uKey.isDown)
-	{
-		if(rightElbowAngle > -135)
-			rightElbowAngle--;
-	}
-	else
-		if(rightElbowAngle < 0)
-			rightElbowAngle++;
 		
 	if(iKey.isDown)
 	{

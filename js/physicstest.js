@@ -52,6 +52,7 @@ let iKey;
 let dKey;
 let fKey;
 
+let head;
 let mouseBody;
 let mouseConstraint;
 

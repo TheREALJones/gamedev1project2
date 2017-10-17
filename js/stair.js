@@ -49,11 +49,11 @@ stairState.prototype.create = function() {
 
 // x1, y1 is the upper left corner of the rectangle.
 // x2, y2 is the lower right corner of the rectangle.
-stairState.addStep = function(x1, y1, x2, y2, collisionGroup) {
+stairState.addStep = function(x1, y1, x2, y2, collisionGroup, debug=false) {
 	let step = game.add.sprite(x1, y1, "");
 	game.physics.p2.enable(step);
 	step.body.setRectangle(x2 - x1, y2 - y1, (x2 - x1)/2, (y2-y1)/2);
-	//step.body.debug = true;
+	step.body.debug = debug;
 	step.body.static = true;
 	step.body.setCollisionGroup(collisionGroup);
 }

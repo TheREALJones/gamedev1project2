@@ -21,7 +21,8 @@ testState.prototype.preload = function() {
 	
 	
 	game.load.image("stairs", "assets/stairs.png");
-	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png")
+	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png");
+	game.load.spritesheet("button", "assets/button_strip9.png", 128, 128);
 }	
 
 let player;
@@ -52,7 +53,7 @@ let iKey;
 let dKey;
 let fKey;
 
-let head;
+let button;
 let mouseBody;
 let mouseConstraint;
 
@@ -86,10 +87,11 @@ testState.prototype.create = function() {
 	
 	// Drag code	
 	
-	head = game.add.sprite(game.world.centerX, game.world.centerY, "head");
-	head.scale.setTo(0.5,0.5);
+	button = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	button.scale.setTo(0.5,0.5);
 	
-	game.physics.p2.enable(head, false);
+	game.physics.p2.enable(button, false);
+	button.body.static = true;
 	
 	// create physics body for mouse which we will use for dragging clicked bodies
     mouseBody = new p2.Body();
@@ -104,7 +106,8 @@ testState.prototype.create = function() {
 testState.prototype.click = function(pointer) {
 
 	//Add any other drag selectors to this.
-    let bodies = game.physics.p2.hitTest(pointer.position, [head]);
+	button.body.static = false;
+    let bodies = game.physics.p2.hitTest(pointer.position, [button]);
     
     // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
     let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
@@ -135,6 +138,7 @@ testState.prototype.release = function(){
 
     // remove constraint from object's body
     game.physics.p2.removeConstraint(mouseConstraint);
+	button.body.static = true;
 
 }
 
@@ -166,8 +170,8 @@ testState.prototype.update = function() {
 	let rArmTheta;
 	let rArmPsi;
 	
-	let rArmX = upperbody.position.x - head.position.x;
-	let rArmY = upperbody.position.y - head.position.y;
+	let rArmX = upperbody.position.x - button.position.x;
+	let rArmY = upperbody.position.y - button.position.y;
 	
 	rArmTheta = 180/Math.PI * Math.atan2(rArmX,rArmY);
 	

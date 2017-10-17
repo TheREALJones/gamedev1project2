@@ -53,11 +53,14 @@ let iKey;
 let dKey;
 let fKey;
 
-let button;
+let rArmButton;
 let mouseBody;
 let mouseConstraint;
 
+let clickedBody = 1;
+
 testState.prototype.create = function() {
+	
 	
 	
 	game.world.setBounds(0,0,1344,750);
@@ -87,11 +90,12 @@ testState.prototype.create = function() {
 	
 	// Drag code	
 	
-	button = game.add.sprite(game.world.centerX, game.world.centerY, "button");
-	button.scale.setTo(0.5,0.5);
+	rArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	rArmButton.scale.setTo(0.5,0.5);
 	
-	game.physics.p2.enable(button, false);
-	button.body.kinematic = true;
+	game.physics.p2.enable(rArmButton, false);
+	rArmButton.body.mass = 0.001
+	rArmButton.body.kinematic = true;
 	
 	// create physics body for mouse which we will use for dragging clicked bodies
     mouseBody = new p2.Body();
@@ -106,20 +110,21 @@ testState.prototype.create = function() {
 testState.prototype.click = function(pointer) {
 
 	//Add any other drag selectors to this.
-    let bodies = game.physics.p2.hitTest(pointer.position, [button]);
+	rArmButton.body.dynamic = true;
+    let bodies = game.physics.p2.hitTest(pointer.position, [rArmButton]);
     
     // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
     let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
     
     if (bodies.length){
-        let clickedBody = bodies[0];
+        clickedBody = bodies[0];
         
         let localPointInBody = [0, 0];
         // this function takes physicsPos and coverts it to the body's local coordinate system
         clickedBody.toLocalFrame(localPointInBody, physicsPos);
-        button.body.dynamic = true;
+        
         // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createLockConstraint(mouseBody, clickedBody);
+        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
     }   
 
 }
@@ -137,9 +142,7 @@ testState.prototype.release = function(){
 
     // remove constraint from object's body
     game.physics.p2.removeConstraint(mouseConstraint);
-	button.body.setZeroVelocity();
-	button.body.kinematic = true;
-
+	clickedBody = 1;
 }
 
 function setupPlayer() {
@@ -164,15 +167,34 @@ let leftShoulderAngle = 0;
 let leftElbowAngle = 0;
 let rightShoulderAngle = 0;
 let rightElbowAngle = 0;
+let rArmSelectConstraint = 1;
 
 testState.prototype.update = function() {
 	//Drag Arm test Code
 	let rArmTheta;
 	let rArmPsi;
 	
-	let rArmX = upperbody.position.x - button.position.x;
-	let rArmY = upperbody.position.y + (Math.cos(upperbody.angle/180*Math.PI))* (-50) - button.position.y;
 	
+	
+	
+	
+	let rArmX = upperbody.position.x - rArmButton.position.x;
+	let rArmYAbs = upperbody.position.y - rArmButton.position.y
+	let rArmY = upperbody.position.y + (Math.cos(upperbody.angle/180*Math.PI))* (-50) - rArmButton.position.y;//-50 is offset of shoulder joing
+	
+	if(clickedBody === 1 && rArmSelectConstraint === 1)
+	{	
+		rArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,rArmButton,[rArmX,rArmYAbs],0);
+	}
+	
+	if(clickedBody !== 1)
+	{
+		if(clickedBody.parent.sprite === rArmButton)
+		{
+			game.physics.p2.removeConstraint(rArmSelectConstraint);
+			rArmSelectConstraint = 1;
+		}
+	}
 	rArmTheta = 180/Math.PI * Math.atan2(rArmX,rArmY);
 	
 	let baseRArmAngl = rArmTheta - upperbody.angle - 90;
@@ -185,7 +207,7 @@ testState.prototype.update = function() {
 	else
 		rArmPsi = 180;
 	
-	let desiredRArmAngl = (-180 - baseRArmAngl + (180 - rArmPsi) / 2);
+	let desiredRArmAngl = (-baseRArmAngl - (180 - rArmPsi) / 2);
 	if(desiredRArmAngl > 45)
 		rightShoulderAngle = 45;
 	else if(desiredRArmAngl < -225)
@@ -193,7 +215,7 @@ testState.prototype.update = function() {
 	else
 		rightShoulderAngle = desiredRArmAngl;
 	
-	rightElbowAngle = rArmPsi;
+	rightElbowAngle = -rArmPsi;
 	
 	if(wKey.isDown)
 	{

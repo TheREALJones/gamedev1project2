@@ -119,7 +119,7 @@ testState.prototype.click = function(pointer) {
         clickedBody.toLocalFrame(localPointInBody, physicsPos);
         button.body.dynamic = true;
         // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
+        mouseConstraint = game.physics.p2.createLockConstraint(mouseBody, clickedBody);
     }   
 
 }

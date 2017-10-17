@@ -38,6 +38,19 @@ titleState.prototype.create = function() {
 	rectangle.addChild(debugText);
 	startText.centerX = rectangle.width/2;
 	startText.centerY = rectangle.height/2;
+	
+	let dragButton = game.add.button(450, 140, "f",  titleState.dragPressed);
+	rectangle = game.add.graphics();
+	dragButton.addChild(rectangle);
+	rectangle.beginFill(0xEEEEEE);
+	rectangle.drawRect(0, 0, 100, 40);
+	rectangle.centerX = dragButton.width/2;
+	rectangle.centerY = dragButton.height/2;
+	
+	let dragText = game.add.text(0, 0, "Drag Test");
+	rectangle.addChild(dragText);
+	startText.centerX = rectangle.width/2;
+	startText.centerY = rectangle.height/2;
 }
 
 titleState.prototype.update = function() {
@@ -53,5 +66,11 @@ titleState.buttonPressed = function(thingy, pointer, isOver) {
 titleState.debugPressed = function(thingy, pointer, isOver) {
 	if (isOver === true) {
 		game.state.start("PhysicsTest");
+	}
+}
+
+titleState.dragPressed = function(thingy, pointer, isOver) {
+	if (isOver === true) {
+		game.state.start("DragTest");
 	}
 }

@@ -98,28 +98,24 @@ testState.prototype.create = function() {
 	
 	game.physics.p2.enable(rArmButton, false);
 	rArmButton.body.mass = 0.001
-	rArmButton.body.kinematic = true;
 	
 	lArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	lArmButton.scale.setTo(0.5,0.5);
 	
 	game.physics.p2.enable(lArmButton, false);
 	lArmButton.body.mass = 0.001
-	lArmButton.body.kinematic = true;
 	
 	rLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	rLegButton.scale.setTo(0.5,0.5);
 	
 	game.physics.p2.enable(rLegButton, false);
 	rLegButton.body.mass = 0.001
-	rLegButton.body.kinematic = true;
 	
 	lLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	lLegButton.scale.setTo(0.5,0.5);
 	
 	game.physics.p2.enable(lLegButton, false);
 	lLegButton.body.mass = 0.001
-	lLegButton.body.kinematic = true;
 	
 	// create physics body for mouse which we will use for dragging clicked bodies
     mouseBody = new p2.Body();
@@ -141,7 +137,6 @@ testState.prototype.click = function(pointer) {
     
     if (bodies.length){
         clickedBody = bodies[0];
-		clickedBody.dynamic = true;
         
         let localPointInBody = [0, 0];
         // this function takes physicsPos and coverts it to the body's local coordinate system

@@ -71,7 +71,7 @@ testState.prototype.create = function() {
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	
 	game.physics.p2.setImpactEvents(true);
-	game.physics.p2.gravity.y = 240;
+	game.physics.p2.gravity.y = 1000;
 	game.physics.p2.friction = 8.0;
 	
 	playerCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -96,28 +96,28 @@ testState.prototype.create = function() {
 	
 	// Drag code	
 	
-	rArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	rArmButton = game.add.sprite(upperbody.position.x - 40, upperbody.position.y - 70, "button");
 	rArmButton.scale.setTo(0.5,0.5);
 	game.physics.p2.enable(rArmButton, false);
 	rArmButton.body.mass = 0.001
 	rArmButton.body.collides([]);
 	rArmButton.body.setCollisionGroup(controlsCollisionGroup);
 	
-	lArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	lArmButton = game.add.sprite(upperbody.position.x - 20, upperbody.position.y -  80, "button");
 	lArmButton.scale.setTo(0.5,0.5);
 	game.physics.p2.enable(lArmButton, false);
 	lArmButton.body.mass = 0.001;
 	lArmButton.body.collides([]);
 	lArmButton.body.setCollisionGroup(controlsCollisionGroup);
 	
-	rLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	rLegButton = game.add.sprite(hips.position.x - 10, hips.position.y, "button");
 	rLegButton.scale.setTo(0.5,0.5);
 	game.physics.p2.enable(rLegButton, false);
 	rLegButton.body.mass = 0.001;
 	rLegButton.body.collides([]);
 	rLegButton.body.setCollisionGroup(controlsCollisionGroup);
 	
-	lLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
+	lLegButton = game.add.sprite(hips.position.x + 10, hips.position.y, "button");
 	lLegButton.scale.setTo(0.5,0.5);
 	game.physics.p2.enable(lLegButton, false);
 	lLegButton.body.mass = 0.001;
@@ -315,7 +315,7 @@ testState.prototype.update = function() {
 	else
 		rLegPsi = 180;
 	
-	let desiredRLegAngl = (-baseRLegAngl - (180 - rLegPsi) / 2);
+	let desiredRLegAngl = (-baseRLegAngl + (180 - rLegPsi) / 2);
 	if(desiredRLegAngl > 45)
 		rightThighAngle = 45;
 	else if(desiredRLegAngl < -225)
@@ -323,7 +323,7 @@ testState.prototype.update = function() {
 	else
 		rightThighAngle = desiredRLegAngl;
 	
-	rightKneeAngle = -rLegPsi;
+	rightKneeAngle = rLegPsi;
 	
 	//
 	
@@ -357,7 +357,7 @@ testState.prototype.update = function() {
 	else
 		lLegPsi = 180;
 	
-	let desiredLLegAngl = (-baseLLegAngl - (180 - lLegPsi) / 2);
+	let desiredLLegAngl = (-baseLLegAngl + (180 - lLegPsi) / 2);
 	if(desiredLLegAngl > 45)
 		leftThighAngle = 45;
 	else if(desiredLLegAngl < -225)
@@ -365,7 +365,7 @@ testState.prototype.update = function() {
 	else
 		leftThighAngle = desiredLLegAngl;
 	
-	leftKneeAngle = -lLegPsi;
+	leftKneeAngle = lLegPsi;
 		
 	leftKneeJoint.setLimits((leftKneeAngle-1)*Math.PI/180,(leftKneeAngle+1)*Math.PI/180);
 	leftHipJoint.setLimits((leftThighAngle-1)*Math.PI/180,(leftThighAngle+1)*Math.PI/180);

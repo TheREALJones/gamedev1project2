@@ -81,46 +81,44 @@ class Player extends Phaser.Group {
 			this.children[i].body.collides(terrainCollisionGroup);
 		}
 		
-		torso.body.kinematic = true;
-		
 		game.physics.p2.createLockConstraint(this.upperbody,torso,[0,-50],0);
 		
 		game.physics.p2.createLockConstraint(torso,this.hips,[0,-40],0);
 		
-		this.leftHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],leftThigh,[0,-55]);
+		this.leftHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],leftThigh,[0,-55],3);
 		this.leftHipJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		this.rightHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],rightThigh,[0,-55]);
+		this.rightHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],rightThigh,[0,-55],3);
 		this.rightHipJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		this.leftKneeJoint = game.physics.p2.createRevoluteConstraint(leftThigh,[0,55],leftLowerLeg,[0,-55]);
+		this.leftKneeJoint = game.physics.p2.createRevoluteConstraint(leftThigh,[0,55],leftLowerLeg,[0,-55],3);
 		this.leftKneeJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		this.rightKneeJoint = game.physics.p2.createRevoluteConstraint(rightThigh,[0,55],rightLowerLeg,[0,-55]);
+		this.rightKneeJoint = game.physics.p2.createRevoluteConstraint(rightThigh,[0,55],rightLowerLeg,[0,-55],3);
 		this.rightKneeJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		let leftAnkleJoint = game.physics.p2.createRevoluteConstraint(leftLowerLeg,[0,55],leftFoot,[5,-18]);
+		let leftAnkleJoint = game.physics.p2.createRevoluteConstraint(leftLowerLeg,[0,55],leftFoot,[5,-18],3);
 		leftAnkleJoint.setLimits(-Math.PI/8,Math.PI/8);
 		
-		let rightAnkleJoint = game.physics.p2.createRevoluteConstraint(rightLowerLeg,[0,55],rightFoot,[5,-18]);
+		let rightAnkleJoint = game.physics.p2.createRevoluteConstraint(rightLowerLeg,[0,55],rightFoot,[5,-18],3);
 		rightAnkleJoint.setLimits(-Math.PI/8,Math.PI/8);
 		
-		this.leftShoulderJoint = game.physics.p2.createRevoluteConstraint(this.upperbody,[0,-45],leftUpperArm,[0,-45]);
+		this.leftShoulderJoint = game.physics.p2.createRevoluteConstraint(this.upperbody,[0,-45],leftUpperArm,[0,-45],3);
 		this.leftShoulderJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		this.leftElbowJoint = game.physics.p2.createRevoluteConstraint(leftUpperArm,[0,45],leftLowerArm,[0,-45]);
+		this.leftElbowJoint = game.physics.p2.createRevoluteConstraint(leftUpperArm,[0,45],leftLowerArm,[0,-45],3);
 		this.leftElbowJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		let leftWristJoint = game.physics.p2.createRevoluteConstraint(leftLowerArm,[0,45],leftHand,[0,-15]);
+		let leftWristJoint = game.physics.p2.createRevoluteConstraint(leftLowerArm,[0,45],leftHand,[0,-15],3);
 		leftWristJoint.setLimits(-Math.PI/2,Math.PI/2);
 		
-		this.rightShoulderJoint = game.physics.p2.createRevoluteConstraint(this.upperbody,[0,-45],rightUpperArm,[0,-45]);
+		this.rightShoulderJoint = game.physics.p2.createRevoluteConstraint(this.upperbody,[0,-45],rightUpperArm,[0,-45],3);
 		this.rightShoulderJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		this.rightElbowJoint = game.physics.p2.createRevoluteConstraint(rightUpperArm,[0,45],rightLowerArm,[0,-45]);
+		this.rightElbowJoint = game.physics.p2.createRevoluteConstraint(rightUpperArm,[0,45],rightLowerArm,[0,-45],3);
 		this.rightElbowJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		let rightWristJoint = game.physics.p2.createRevoluteConstraint(rightLowerArm,[0,45],rightHand,[0,-15]);
+		let rightWristJoint = game.physics.p2.createRevoluteConstraint(rightLowerArm,[0,45],rightHand,[0,-15],3);
 		rightWristJoint.setLimits(-Math.PI/2,Math.PI/2);
 	}
 }

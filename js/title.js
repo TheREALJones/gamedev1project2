@@ -4,9 +4,14 @@ let titleState = function() {
 
 titleState.prototype.preload = function() {
 	game.load.image("title", "assets/Toby Philpott manipulated.png");
+	game.load.audio("titleTheme", "assets/music/puppetintro.wav");
 }
 
 titleState.prototype.create = function() {
+	let music = game.add.audio("titleTheme");
+	music.loopFull(0.6);
+	music.play();
+ 
 	let title = game.add.image(0, 0, "title");
 	title.scale.setTo(750/1025, 750/1025);
 	title.centerX = game.world.centerX;

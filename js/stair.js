@@ -4,9 +4,15 @@ let stairState = function() {
 
 stairState.prototype.preload = function() {
 	game.load.image("stairs", "assets/stairs.png");
+	game.load.audio("stairTheme", "assets/music/stairtheme1.wav");
 }
 
 stairState.prototype.create = function() {
+	game.sound.stopAll();
+	let music = game.add.audio("stairTheme");
+	music.loopFull(0.6);
+	music.play();
+
 	game.add.image(0, 0, "stairs");
 	
 	game.world.setBounds(0,0,1344,750);

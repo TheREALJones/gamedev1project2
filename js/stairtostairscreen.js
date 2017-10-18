@@ -22,6 +22,6 @@ stairtoStairState.prototype.create = function() {
 
 stairtoStairState.prototype.update = function() {
 	if (game.input.activePointer.isDown) {
-		game.state.start("StairstoStairScreen1");
+		game.state.start("StairtoStairScreen1");
 	}
 }

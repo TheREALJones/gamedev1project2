@@ -5,7 +5,7 @@ let stair2State = function() {
 stair2State.prototype.preload = function() {
 	game.load.image("stairs", "assets/stairs.png");
 	game.load.image("buttonController", "assets/controllerButton2.png");
-	game.load.audio("stairTheme", "assets/music/stairtheme1.wav");
+	game.load.audio("stairTheme2", "assets/music/stairtheme2.wav");
 	game.load.image('plrrha', 'assets/Toby Philpott Pieces/R_hand.png');
 	game.load.image('plrrla', 'assets/Toby Philpott Pieces/R_lower_arm.png');
 	game.load.image('plrrua', 'assets/Toby Philpott Pieces/R_upper_arm.png');
@@ -30,7 +30,7 @@ stair2State.prototype.preload = function() {
 
 stair2State.prototype.create = function() {
 	game.sound.stopAll();
-	let music = game.add.audio("stairTheme");
+	let music = game.add.audio("stairTheme2");
 	music.loopFull(0.6);
 	music.play();
 

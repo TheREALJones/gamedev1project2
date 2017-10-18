@@ -9,6 +9,7 @@ titleState.prototype.preload = function() {
 }
 
 titleState.prototype.create = function() {
+
 	let music = game.add.audio("titleTheme");
 	music.loopFull(0.6);
 	music.play();
@@ -57,7 +58,7 @@ titleState.prototype.update = function() {
 
 titleState.buttonPressed = function(thingy, pointer, isOver) {
 	if (isOver === true) {
-		game.state.start("Stairs");
+		game.state.start("Bedroom");
 	}
 }
 

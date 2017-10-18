@@ -5,6 +5,18 @@ class Player extends Phaser.Group {
 	// but that can be said about many things including Javascript itself.
 	constructor(x, y) {
 		super(game);
+		
+		game.world.setBounds(0,0,1344,750);
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		
+		game.physics.p2.setImpactEvents(true);
+		game.physics.p2.gravity.y = 400;
+		game.physics.p2.friction = 8.0;
+		
+		playerCollisionGroup = game.physics.p2.createCollisionGroup();
+		terrainCollisionGroup = game.physics.p2.createCollisionGroup();
+		controlsCollisionGroup = game.physics.p2.createCollisionGroup();
+		
 		let leftUpperArm = game.add.sprite(500,450,'plrlua');
 		this.add(leftUpperArm);
 		let leftLowerArm = game.add.sprite(500,500,'plrlla');
@@ -127,7 +139,37 @@ class Player extends Phaser.Group {
 		let rightWristJoint = game.physics.p2.createRevoluteConstraint(rightLowerArm,[0,45],rightHand,[0,-15],jointForce);
 		rightWristJoint.setLimits(-Math.PI/2,Math.PI/2);
 		
-		this.x = 0;
-		this.y = 0;
+		this.rArmButton = game.add.sprite(this.upperbody.position.x - 40, this.upperbody.position.y - 70, "button");
+		this.rArmButton.scale.setTo(0.4,0.4);
+		game.physics.p2.enable(this.rArmButton, false);
+		this.rArmButton.body.mass = 0.001
+		this.rArmButton.body.collides([]);
+		this.rArmButton.body.setCollisionGroup(controlsCollisionGroup);
+		
+		this.lArmButton = game.add.sprite(this.upperbody.position.x - 20, this.upperbody.position.y -  80, "button");
+		this.lArmButton.scale.setTo(0.5,0.5);
+		game.physics.p2.enable(this.lArmButton, false);
+		this.lArmButton.body.mass = 0.001;
+		this.lArmButton.body.collides([]);
+		this.lArmButton.body.setCollisionGroup(controlsCollisionGroup);
+		
+		this.rLegButton = game.add.sprite(this.hips.position.x - 10, this.hips.position.y, "button");
+		this.rLegButton.scale.setTo(0.5,0.5);
+		game.physics.p2.enable(this.rLegButton, false);
+		this.rLegButton.body.mass = 0.001;
+		this.rLegButton.body.collides([]);
+		this.rLegButton.body.setCollisionGroup(controlsCollisionGroup);
+		
+		this.lLegButton = game.add.sprite(this.hips.position.x + 10, this.hips.position.y, "button");
+		this.lLegButton.scale.setTo(0.5,0.5);
+		game.physics.p2.enable(this.lLegButton, false);
+		this.lLegButton.body.mass = 0.001;
+		this.lLegButton.body.collides([]);
+		this.lLegButton.body.setCollisionGroup(controlsCollisionGroup);
+		
+		this.x = x;
+		this.y = y;
+		
+		game.physics.p2.updateBoundsCollisionGroup();
 	}
 }

@@ -19,8 +19,9 @@ class Player extends Phaser.Group {
 		this.rLegSelectConstraint = 1;
 		this.lLegSelectConstraint = 1;
 		
-		game.world.setBounds(0,0,1400,750);
+		//game.world.setBounds(0,0,1500,750);
 		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.setBounds(0, 0, 1344, 750)
 		
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 550;
@@ -117,6 +118,8 @@ class Player extends Phaser.Group {
 		game.physics.p2.createLockConstraint(this.upperbody,headHead,[0,80],0);
 		game.physics.p2.createLockConstraint(torso,this.hips,[0,-40],0);
 		
+		
+		
 		this.leftHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],leftThigh,[0,-55],jointForce);
 		this.leftHipJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
@@ -157,14 +160,14 @@ class Player extends Phaser.Group {
 		this.rArmButton.scale.setTo(0.5,0.5);
 		game.physics.p2.enable(this.rArmButton, false);
 		this.rArmButton.body.mass = 0.001
-		this.rArmButton.body.collides([]);
+		this.rArmButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.rArmButton.body.setCollisionGroup(controlsCollisionGroup);
 		
 		this.lArmButton = game.add.sprite(this.upperbody.position.x - 20, this.upperbody.position.y -  80, "button");
 		this.lArmButton.scale.setTo(0.5,0.5);
 		game.physics.p2.enable(this.lArmButton, false);
 		this.lArmButton.body.mass = 0.001;
-		this.lArmButton.body.collides([]);
+		this.lArmButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.lArmButton.body.setCollisionGroup(controlsCollisionGroup);
 		this.lArmButton.tint = 0xFF0000;
 		
@@ -172,7 +175,7 @@ class Player extends Phaser.Group {
 		this.rLegButton.scale.setTo(0.5,0.5);
 		game.physics.p2.enable(this.rLegButton, false);
 		this.rLegButton.body.mass = 0.001;
-		this.rLegButton.body.collides([]);
+		this.rLegButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.rLegButton.body.setCollisionGroup(controlsCollisionGroup);
 		this.rLegButton.tint = 0xFF0000;
 		
@@ -180,14 +183,14 @@ class Player extends Phaser.Group {
 		this.lLegButton.scale.setTo(0.5,0.5);
 		game.physics.p2.enable(this.lLegButton, false);
 		this.lLegButton.body.mass = 0.001;
-		this.lLegButton.body.collides([]);
+		this.lLegButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.lLegButton.body.setCollisionGroup(controlsCollisionGroup);
 		
 		this.x = x;
 		this.y = y;
-		this.scale.setTo(0.5,0.5);
 		
-		game.physics.p2.updateBoundsCollisionGroup();
+		game.physics.p2.boundsCollideWith = [this.rArmButton.body, this.lArmButton.body, this.rLegButton.body, this.rLegButton.body];
+		//game.physics.p2.updateBoundsCollisionGroup();
 		
 		// create physics body for mouse which we will use for dragging clicked bodies
 		this.mouseBody = new p2.Body();

@@ -19,7 +19,7 @@ class Player extends Phaser.Group {
 		this.rLegSelectConstraint = 1;
 		this.lLegSelectConstraint = 1;
 		
-		game.world.setBounds(0,0,1344,750);
+		game.world.setBounds(0,0,1400,750);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		
 		game.physics.p2.setImpactEvents(true);

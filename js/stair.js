@@ -36,12 +36,16 @@ stairState.prototype.create = function() {
 	stairState.addStep(1150, 679, 1245, 750, this.terrainCollisionGroup);
 	stairState.addStep(1245, 732, 1334, 750, this.terrainCollisionGroup);
 
-	let restartButton = game.add.button(1130, 0, "buttonController",  stairState.resetButtonPress);
-	restartButton.scale.setTo (0.4,0.4);
+	let styleText = {font:'20px Arial', align: "center", fill: '#FFFFFF'};
+	let restartButton = game.add.button(0, 530, "buttonController",  stairState.resetButtonPress);
+	restartButton.scale.setTo (0.5,0.5);
 
-	let restartText = game.add.text(1200, 40, "Restart", {font:'20px Arial', align: "center", fill: '#FFFFFF'});
+	let restartText = game.add.text(95, 580, "Restart", styleText);
 
-	this.timerText = game.add.text(50, 40, "Time: ");
+	let timerBG = game.add.image(0,400, "buttonController");
+	timerBG.scale.setTo (0.5,0.5);
+
+	this.timerText = game.add.text(70, 450, "Time: ", styleText);
 	this.startTime = game.time.totalElapsedSeconds();
 }
 

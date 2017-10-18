@@ -65,7 +65,7 @@ class Player extends Phaser.Group {
 		let rightHand = game.add.sprite(x,y+200,'plrrha');
 		this.add(rightHand);
 		
-		let jointForce = 900;
+		let jointForce = 1100;
 		
 		
 		let i;

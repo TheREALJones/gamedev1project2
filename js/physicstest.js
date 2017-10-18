@@ -66,22 +66,10 @@ let clickedBody = 1;
 testState.prototype.create = function() {
 	
 	
-	
-	game.world.setBounds(0,0,1344,750);
-	game.physics.startSystem(Phaser.Physics.P2JS);
-	
-	game.physics.p2.setImpactEvents(true);
-	game.physics.p2.gravity.y = 400;
-	game.physics.p2.friction = 8.0;
-	
-	playerCollisionGroup = game.physics.p2.createCollisionGroup();
-	terrainCollisionGroup = game.physics.p2.createCollisionGroup();
-	
 	setupPlayer();
 	
-	game.physics.p2.updateBoundsCollisionGroup();
 	
-	controlsCollisionGroup = game.physics.p2.createCollisionGroup();
+	
 	
 	/* qKey = game.input.keyboard.addKey(Phaser.KeyCode.Q);
 	wKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
@@ -96,33 +84,7 @@ testState.prototype.create = function() {
 	
 	// Drag code	
 	
-	rArmButton = game.add.sprite(upperbody.position.x - 40, upperbody.position.y - 70, "button");
-	rArmButton.scale.setTo(0.5,0.5);
-	game.physics.p2.enable(rArmButton, false);
-	rArmButton.body.mass = 0.001
-	rArmButton.body.collides([]);
-	rArmButton.body.setCollisionGroup(controlsCollisionGroup);
 	
-	lArmButton = game.add.sprite(upperbody.position.x - 20, upperbody.position.y -  80, "button");
-	lArmButton.scale.setTo(0.5,0.5);
-	game.physics.p2.enable(lArmButton, false);
-	lArmButton.body.mass = 0.001;
-	lArmButton.body.collides([]);
-	lArmButton.body.setCollisionGroup(controlsCollisionGroup);
-	
-	rLegButton = game.add.sprite(hips.position.x - 10, hips.position.y, "button");
-	rLegButton.scale.setTo(0.5,0.5);
-	game.physics.p2.enable(rLegButton, false);
-	rLegButton.body.mass = 0.001;
-	rLegButton.body.collides([]);
-	rLegButton.body.setCollisionGroup(controlsCollisionGroup);
-	
-	lLegButton = game.add.sprite(hips.position.x + 10, hips.position.y, "button");
-	lLegButton.scale.setTo(0.5,0.5);
-	game.physics.p2.enable(lLegButton, false);
-	lLegButton.body.mass = 0.001;
-	lLegButton.body.collides([]);
-	lLegButton.body.setCollisionGroup(controlsCollisionGroup);
 	
 	// create physics body for mouse which we will use for dragging clicked bodies
     mouseBody = new p2.Body();
@@ -182,6 +144,11 @@ function setupPlayer() {
 	leftElbowJoint = player.leftElbowJoint;
 	rightShoulderJoint = player.rightShoulderJoint;
 	rightElbowJoint = player.rightElbowJoint;
+	
+	lArmButton = player.lArmButton;
+	rArmButton = player.rArmButton;
+	lLegButton = player.lLegButton;
+	rLegButton = player.rLegButton;
 }
 
 let leftKneeAngle = 0;

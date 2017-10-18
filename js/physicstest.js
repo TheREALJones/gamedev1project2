@@ -61,30 +61,11 @@ let mouseConstraint;
 
 let clickedBody = 1; */
 
+// Copy this.
 testState.prototype.create = function() {
 	
 	
 	this.player = new Player(0,0);
-	
-	
-	
-	
-	/* qKey = game.input.keyboard.addKey(Phaser.KeyCode.Q);
-	wKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
-	oKey = game.input.keyboard.addKey(Phaser.KeyCode.O);
-	pKey = game.input.keyboard.addKey(Phaser.KeyCode.P);
-	eKey = game.input.keyboard.addKey(Phaser.KeyCode.E);
-	rKey = game.input.keyboard.addKey(Phaser.KeyCode.R);
-	uKey = game.input.keyboard.addKey(Phaser.KeyCode.U);
-	iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
-	dKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
-	fKey = game.input.keyboard.addKey(Phaser.KeyCode.F); */
-	
-	// Drag code	
-	
-	
-	
-	
         
     // attach pointer events
     game.input.onDown.add((pointer)=> {
@@ -171,6 +152,7 @@ testState.setupPlayer = function() {
 // let rLegSelectConstraint = 1;
 // let lLegSelectConstraint = 1;
 
+// Copyt this function.
 testState.prototype.update = function() {
 	this.player.update();
 }

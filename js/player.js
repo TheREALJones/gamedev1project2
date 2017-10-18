@@ -32,37 +32,37 @@ class Player extends Phaser.Group {
 		controlsCollisionGroup = game.physics.p2.createCollisionGroup();
 		
 		this.clickedBody = 1;
-		let leftUpperArm = game.add.sprite(500,450,'plrlua');
+		let leftUpperArm = game.add.sprite(x,y+100,'plrlua');
 		this.add(leftUpperArm);
-		let leftLowerArm = game.add.sprite(500,500,'plrlla');
+		let leftLowerArm = game.add.sprite(x,y+150,'plrlla');
 		this.add(leftLowerArm);
-		let leftHand = game.add.sprite(500,550,'plrlha');
+		let leftHand = game.add.sprite(x,y+200,'plrlha');
 		this.add(leftHand);
-		let leftFoot = game.add.sprite(500,725,'plrlft');
+		let leftFoot = game.add.sprite(x,y+375,'plrlft');
 		this.add(leftFoot);
-		let leftThigh = game.add.sprite(500,575,'plrlth');
+		let leftThigh = game.add.sprite(x,y+225,'plrlth');
 		this.add(leftThigh);
-		let leftLowerLeg = game.add.sprite(500,650,'plrlll');
+		let leftLowerLeg = game.add.sprite(x,y+300,'plrlll');
 		this.add(leftLowerLeg);
-		this.hips = game.add.sprite(500,500,'plrhip');
+		this.hips = game.add.sprite(x,y+150,'plrhip');
 		this.add(this.hips);
-		let torso = game.add.sprite(500,450,'plrtrs');
+		let torso = game.add.sprite(x,y+100,'plrtrs');
 		this.add(torso);
-		let headHead = game.add.sprite(500, 350, 'head');
+		let headHead = game.add.sprite(x, y, 'head');
 		this.add(headHead);
-		this.upperbody = game.add.sprite(500,400,'plrub');
+		this.upperbody = game.add.sprite(x,y+50,'plrub');
 		this.add(this.upperbody);
-		let rightFoot = game.add.sprite(500,725,'plrrft');
+		let rightFoot = game.add.sprite(x,y+375,'plrrft');
 		this.add(rightFoot);
-		let rightThigh = game.add.sprite(500,575,'plrrth');
+		let rightThigh = game.add.sprite(x,y+225,'plrrth');
 		this.add(rightThigh);
-		let rightLowerLeg = game.add.sprite(500,650,'plrrll');
+		let rightLowerLeg = game.add.sprite(x,y+300,'plrrll');
 		this.add(rightLowerLeg);
-		let rightUpperArm = game.add.sprite(500,450,'plrrua');
+		let rightUpperArm = game.add.sprite(x,y+100,'plrrua');
 		this.add(rightUpperArm);
-		let rightLowerArm = game.add.sprite(500,500,'plrrla');
+		let rightLowerArm = game.add.sprite(x,y+150,'plrrla');
 		this.add(rightLowerArm);
-		let rightHand = game.add.sprite(500,550,'plrrha');
+		let rightHand = game.add.sprite(x,y+200,'plrrha');
 		this.add(rightHand);
 		
 		let jointForce = 900;
@@ -117,8 +117,6 @@ class Player extends Phaser.Group {
 		game.physics.p2.createLockConstraint(this.upperbody,torso,[0,-50],0);
 		game.physics.p2.createLockConstraint(this.upperbody,headHead,[0,80],0);
 		game.physics.p2.createLockConstraint(torso,this.hips,[0,-40],0);
-		
-		
 		
 		this.leftHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],leftThigh,[0,-55],jointForce);
 		this.leftHipJoint.setLimits(-Math.PI/180,Math.PI/180);
@@ -185,9 +183,6 @@ class Player extends Phaser.Group {
 		this.lLegButton.body.mass = 0.001;
 		this.lLegButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.lLegButton.body.setCollisionGroup(controlsCollisionGroup);
-		
-		this.x = x;
-		this.y = y;
 		
 		game.physics.p2.boundsCollideWith = [this.rArmButton.body, this.lArmButton.body, this.rLegButton.body, this.rLegButton.body];
 		//game.physics.p2.updateBoundsCollisionGroup();

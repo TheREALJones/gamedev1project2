@@ -26,10 +26,17 @@ bedroomState.prototype.preload = function(){
 
 	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png");
 	game.load.spritesheet("button", "assets/button_strip9.png", 128, 128);
+
+	game.load.audio("bedroomTheme", "assets/music/bedtheme1.wav");
 }
 
 bedroomState.prototype.create = function(){
 	
+	game.sound.stopAll();
+	let music = game.add.audio("bedroomTheme");
+	music.loopFull(0.6);
+	music.play();
+
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	game.world.setBounds(0,0,1500,750);
 	game.physics.p2.gravity.y = 1000;	

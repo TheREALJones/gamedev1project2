@@ -6,6 +6,26 @@ stairState.prototype.preload = function() {
 	game.load.image("stairs", "assets/stairs.png");
 	game.load.image("buttonController", "assets/controllerButton2.png");
 	game.load.audio("stairTheme", "assets/music/stairtheme1.wav");
+	game.load.image('plrrha', 'assets/Toby Philpott Pieces/R_hand.png');
+	game.load.image('plrrla', 'assets/Toby Philpott Pieces/R_lower_arm.png');
+	game.load.image('plrrua', 'assets/Toby Philpott Pieces/R_upper_arm.png');
+	game.load.image('plrlha', 'assets/Toby Philpott Pieces/L_hand.png');
+	game.load.image('plrlla', 'assets/Toby Philpott Pieces/L_lower_arm.png');
+	game.load.image('plrlua', 'assets/Toby Philpott Pieces/L_upper_arm.png');
+	game.load.image('plrhip', 'assets/Toby Philpott Pieces/hips.png');
+	game.load.image('plrtrs', 'assets/Toby Philpott Pieces/Torso.png');
+	game.load.image('plrub', 'assets/Toby Philpott Pieces/Upper_Body.png');
+	game.load.image('plrlth', 'assets/Toby Philpott Pieces/L_upper_thigh.png');
+	game.load.image('plrlll', 'assets/Toby Philpott Pieces/L_lower_leg.png');
+	game.load.image('plrlft', 'assets/Toby Philpott Pieces/L_foot.png');
+	game.load.image('plrrth', 'assets/Toby Philpott Pieces/R_upper_thigh.png');
+	game.load.image('plrrll', 'assets/Toby Philpott Pieces/R_lower_leg.png');
+	game.load.image('plrrft', 'assets/Toby Philpott Pieces/R_foot.png');
+	
+	
+	game.load.image("stairs", "assets/stairs.png");
+	game.load.image("head", "assets/Toby Philpott Pieces/Eye_Open.png");
+	game.load.spritesheet("button", "assets/button_strip9.png", 128, 128);
 }
 
 stairState.prototype.create = function() {
@@ -47,6 +67,7 @@ stairState.prototype.create = function() {
 
 	this.timerText = game.add.text(70, 450, "Time: ", styleText);
 	this.startTime = game.time.totalElapsedSeconds();
+	this.player = new Player(0,0);
 }
 
 // x1, y1 is the upper left corner of the rectangle.

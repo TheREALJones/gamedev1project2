@@ -9,6 +9,7 @@ titleState.prototype.preload = function() {
 }
 
 titleState.prototype.create = function() {
+
 	let music = game.add.audio("titleTheme");
 	music.loopFull(0.6);
 	music.play();

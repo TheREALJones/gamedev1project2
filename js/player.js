@@ -183,6 +183,7 @@ class Player extends Phaser.Group {
 		
 		this.x = x;
 		this.y = y;
+		this.scale.setTo(0.5,0.5);
 		
 		game.physics.p2.updateBoundsCollisionGroup();
 		

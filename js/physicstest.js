@@ -97,6 +97,14 @@ testState.prototype.create = function() {
 		this.player.mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
 		this.player.mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
 	});
+	
+	let step = game.add.sprite(0, 750, "");
+	game.physics.p2.enable(step);
+	step.body.setRectangle(1344, 2, 1344/2, 1);
+	step.body.debug = true;
+	step.body.static = true;
+	step.body.setCollisionGroup(terrainCollisionGroup);
+	step.body.collides(playerCollisionGroup);
 }
 
 testState.prototype.click = function(pointer) {

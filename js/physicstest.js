@@ -71,7 +71,7 @@ testState.prototype.create = function() {
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	
 	game.physics.p2.setImpactEvents(true);
-	game.physics.p2.gravity.y = 1000;
+	game.physics.p2.gravity.y = 400;
 	game.physics.p2.friction = 8.0;
 	
 	playerCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -83,7 +83,7 @@ testState.prototype.create = function() {
 	
 	controlsCollisionGroup = game.physics.p2.createCollisionGroup();
 	
-	qKey = game.input.keyboard.addKey(Phaser.KeyCode.Q);
+	/* qKey = game.input.keyboard.addKey(Phaser.KeyCode.Q);
 	wKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
 	oKey = game.input.keyboard.addKey(Phaser.KeyCode.O);
 	pKey = game.input.keyboard.addKey(Phaser.KeyCode.P);
@@ -92,7 +92,7 @@ testState.prototype.create = function() {
 	uKey = game.input.keyboard.addKey(Phaser.KeyCode.U);
 	iKey = game.input.keyboard.addKey(Phaser.KeyCode.I);
 	dKey = game.input.keyboard.addKey(Phaser.KeyCode.D);
-	fKey = game.input.keyboard.addKey(Phaser.KeyCode.F);
+	fKey = game.input.keyboard.addKey(Phaser.KeyCode.F); */
 	
 	// Drag code	
 	
@@ -208,7 +208,11 @@ testState.prototype.update = function() {
 	
 	if(clickedBody === 1 && rArmSelectConstraint === 1)
 	{	
-		rArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,rArmButton,[rArmX,rArmYAbs],0);
+		let offset = [rArmX, rArmYAbs];
+		upperbody.body.toLocalFrame(offset, [rArmX, rArmYAbs]);
+		//offset = [offset[0] * Math.cos(upperbody.angle/180*Math.PI) - offset[1] * Math.sin(upperbody.angle/180*Math.PI), 
+		//		  offset[0] * Math.sin(upperbody.angle/180*Math.PI) + offset[1] * Math.cos(upperbody.angle/180*Math.PI)];
+		rArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,rArmButton,offset);
 	}
 	
 	if(clickedBody !== 1)
@@ -250,7 +254,11 @@ testState.prototype.update = function() {
 	
 	if(clickedBody === 1 && lArmSelectConstraint === 1)
 	{	
-		lArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,lArmButton,[lArmX,lArmYAbs],0);
+		let offset = [lArmX, lArmYAbs];
+		upperbody.body.toLocalFrame(offset, [lArmX, lArmYAbs]);
+		//offset = [offset[0] * Math.cos(upperbody.angle/180*Math.PI) - offset[1] * Math.sin(upperbody.angle/180*Math.PI), 
+		//		  offset[0] * Math.sin(upperbody.angle/180*Math.PI) + offset[1] * Math.cos(upperbody.angle/180*Math.PI)];
+		lArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,lArmButton,offset);
 	}
 	
 	if(clickedBody !== 1)
@@ -292,7 +300,11 @@ testState.prototype.update = function() {
 	
 	if(clickedBody === 1 && rLegSelectConstraint === 1)
 	{	
-		rLegSelectConstraint = game.physics.p2.createLockConstraint(hips,rLegButton,[rLegX,rLegYAbs],0);
+		let offset = [rLegX, rLegYAbs];
+		hips.body.toLocalFrame(offset, [rLegX, rLegYAbs]);
+		//offset = [offset[0] * Math.cos(hips.angle/180*Math.PI) - offset[1] * Math.sin(hips.angle/180*Math.PI), 
+		//		  offset[0] * Math.sin(hips.angle/180*Math.PI) + offset[1] * Math.cos(hips.angle/180*Math.PI)];
+		rLegSelectConstraint = game.physics.p2.createLockConstraint(hips,rLegButton,offset);
 	}
 	
 	if(clickedBody !== 1)
@@ -305,7 +317,7 @@ testState.prototype.update = function() {
 	}
 	rLegTheta = 180/Math.PI * Math.atan2(rLegX,rLegY);
 	
-	let baseRLegAngl = rLegTheta - upperbody.angle - 90;
+	let baseRLegAngl = rLegTheta - hips.angle - 90;
 	
 	let legLength = 90;
 	
@@ -336,7 +348,11 @@ testState.prototype.update = function() {
 	
 	if(clickedBody === 1 && lLegSelectConstraint === 1)
 	{	
-		lLegSelectConstraint = game.physics.p2.createLockConstraint(hips,lLegButton,[lLegX,lLegYAbs],0);
+		let offset = [lLegX, lLegYAbs];
+		hips.body.toLocalFrame(offset, [lLegX, lLegYAbs]);
+		//offset = [offset[0] * Math.cos(hips.angle/180*Math.PI) - offset[1] * Math.sin(hips.angle/180*Math.PI), 
+		//		  offset[0] * Math.sin(hips.angle/180*Math.PI) + offset[1] * Math.cos(hips.angle/180*Math.PI)];
+		lLegSelectConstraint = game.physics.p2.createLockConstraint(hips,lLegButton,offset);
 	}
 	
 	if(clickedBody !== 1)
@@ -349,7 +365,7 @@ testState.prototype.update = function() {
 	}
 	rLegTheta = 180/Math.PI * Math.atan2(lLegX,lLegY);
 	
-	let baseLLegAngl = rLegTheta - upperbody.angle - 90;
+	let baseLLegAngl = rLegTheta - hips.angle - 90;
 	
 	let lLegDesiredLength = Math.sqrt(lLegX * lLegX + lLegY * lLegY);
 	if( lLegDesiredLength < 2 * legLength)

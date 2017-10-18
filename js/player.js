@@ -21,6 +21,8 @@ class Player extends Phaser.Group {
 		this.add(this.hips);
 		let torso = game.add.sprite(500,450,'plrtrs');
 		this.add(torso);
+		let headHead = game.add.sprite(500, 350, 'head');
+		this.add(headHead);
 		this.upperbody = game.add.sprite(500,400,'plrub');
 		this.add(this.upperbody);
 		let rightFoot = game.add.sprite(500,725,'plrrft');
@@ -36,7 +38,7 @@ class Player extends Phaser.Group {
 		let rightHand = game.add.sprite(500,550,'plrrha');
 		this.add(rightHand);
 		
-		let jointForce = 1200;
+		let jointForce = 1000;
 		
 		
 		let i;
@@ -45,7 +47,7 @@ class Player extends Phaser.Group {
 			this.children[i].scale.setTo(0.5,0.5);
 		}
 		
-		game.physics.p2.enable([this.upperbody,this.hips,torso,leftThigh,leftLowerLeg,leftFoot,rightThigh,rightLowerLeg,rightFoot,leftUpperArm,leftLowerArm,leftHand,rightUpperArm,rightLowerArm,rightHand]);
+		game.physics.p2.enable([headHead, this.upperbody,this.hips,torso,leftThigh,leftLowerLeg,leftFoot,rightThigh,rightLowerLeg,rightFoot,leftUpperArm,leftLowerArm,leftHand,rightUpperArm,rightLowerArm,rightHand]);
 		leftUpperArm.anchor = {x:0.55,y:0.5};
 		leftUpperArm.body.setRectangle(40,95);
 		leftLowerArm.anchor = {x:0.55,y:0.5};
@@ -76,6 +78,8 @@ class Player extends Phaser.Group {
 		rightLowerLeg.body.setRectangle(40,125);
 		rightFoot.body.anchor = {x:0.57,y:0.5};
 		rightFoot.body.setRectangle(80,25);
+		headHead.anchor = {x:0.55,y:0.45};
+		headHead.body.setRectangle(90, 125);
 		
 		for(i = 0; i < this.length; i++)
 		{
@@ -84,7 +88,7 @@ class Player extends Phaser.Group {
 		}
 		
 		game.physics.p2.createLockConstraint(this.upperbody,torso,[0,-50],0);
-		
+		game.physics.p2.createLockConstraint(this.upperbody,headHead,[0,80],0);
 		game.physics.p2.createLockConstraint(torso,this.hips,[0,-40],0);
 		
 		this.leftHipJoint = game.physics.p2.createRevoluteConstraint(this.hips,[0,20],leftThigh,[0,-55],jointForce);

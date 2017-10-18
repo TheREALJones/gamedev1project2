@@ -50,7 +50,7 @@ titleState.prototype.update = function() {
 
 titleState.buttonPressed = function(thingy, pointer, isOver) {
 	if (isOver === true) {
-		game.state.start("Stairs");
+		game.state.start("Bedroom");
 	}
 }
 

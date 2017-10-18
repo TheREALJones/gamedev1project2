@@ -7,10 +7,17 @@ bedroomState.prototype.preload = function(){
 	game.load.image("head", "assets/Eye_Open.png")
 	game.load.image("bed", "assets/bed.png");
 	game.load.image("bedframe", "assets/bed_frame.png");
+
+	game.load.audio("bedroomTheme", "assets/music/bedtheme1.wav");
 }
 
 bedroomState.prototype.create = function(){
 	
+	game.sound.stopAll();
+	let music = game.add.audio("bedroomTheme");
+	music.loopFull(0.6);
+	music.play();
+
 	game.physics.startSystem(Phaser.Physics.P2JS);
 	game.physics.p2.gravity.y = 1000;	
 	game.add.sprite(0,0,"bedroom");

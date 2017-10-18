@@ -3,7 +3,7 @@ class Player extends Phaser.Group {
 	// Must be called after assets are loaded.
 	// There's probably a better way to do this, 
 	// but that can be said about many things including Javascript itself.
-	constructor() {
+	constructor(x, y) {
 		super(game);
 		let leftUpperArm = game.add.sprite(500,450,'plrlua');
 		this.add(leftUpperArm);
@@ -126,5 +126,8 @@ class Player extends Phaser.Group {
 		
 		let rightWristJoint = game.physics.p2.createRevoluteConstraint(rightLowerArm,[0,45],rightHand,[0,-15],jointForce);
 		rightWristJoint.setLimits(-Math.PI/2,Math.PI/2);
+		
+		this.x = 0;
+		this.y = 0;
 	}
 }

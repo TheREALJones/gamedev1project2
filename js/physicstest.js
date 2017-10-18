@@ -171,7 +171,7 @@ testState.prototype.release = function(){
 }
 
 function setupPlayer() {
-	player = new Player();
+	player = new Player(0,0);
 	upperbody = player.upperbody;
 	hips = player.hips;
 	leftHipJoint = player.leftHipJoint;

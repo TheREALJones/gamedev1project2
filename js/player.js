@@ -23,7 +23,7 @@ class Player extends Phaser.Group {
 		game.physics.startSystem(Phaser.Physics.P2JS);
 		
 		game.physics.p2.setImpactEvents(true);
-		game.physics.p2.gravity.y = 400;
+		game.physics.p2.gravity.y = 550;
 		game.physics.p2.friction = 8.0;
 		
 		playerCollisionGroup = game.physics.p2.createCollisionGroup();
@@ -64,7 +64,7 @@ class Player extends Phaser.Group {
 		let rightHand = game.add.sprite(500,550,'plrrha');
 		this.add(rightHand);
 		
-		let jointForce = 1000;
+		let jointForce = 900;
 		
 		
 		let i;
@@ -154,7 +154,7 @@ class Player extends Phaser.Group {
 		rightWristJoint.setLimits(-Math.PI/2,Math.PI/2);
 		
 		this.rArmButton = game.add.sprite(this.upperbody.position.x - 40, this.upperbody.position.y - 70, "button");
-		this.rArmButton.scale.setTo(0.4,0.4);
+		this.rArmButton.scale.setTo(0.5,0.5);
 		game.physics.p2.enable(this.rArmButton, false);
 		this.rArmButton.body.mass = 0.001
 		this.rArmButton.body.collides([]);
@@ -166,6 +166,7 @@ class Player extends Phaser.Group {
 		this.lArmButton.body.mass = 0.001;
 		this.lArmButton.body.collides([]);
 		this.lArmButton.body.setCollisionGroup(controlsCollisionGroup);
+		this.lArmButton.tint = 0xFF0000;
 		
 		this.rLegButton = game.add.sprite(this.hips.position.x - 10, this.hips.position.y, "button");
 		this.rLegButton.scale.setTo(0.5,0.5);
@@ -173,6 +174,7 @@ class Player extends Phaser.Group {
 		this.rLegButton.body.mass = 0.001;
 		this.rLegButton.body.collides([]);
 		this.rLegButton.body.setCollisionGroup(controlsCollisionGroup);
+		this.rLegButton.tint = 0xFF0000;
 		
 		this.lLegButton = game.add.sprite(this.hips.position.x + 10, this.hips.position.y, "button");
 		this.lLegButton.scale.setTo(0.5,0.5);
@@ -189,6 +191,11 @@ class Player extends Phaser.Group {
 		// create physics body for mouse which we will use for dragging clicked bodies
 		this.mouseBody = new p2.Body();
 		game.physics.p2.world.addBody(this.mouseBody);
+		
+		this.lArmLine = game.add.graphics();
+		this.rArmLine = game.add.graphics();
+		this.lLegLine = game.add.graphics();
+		this.rLegLine = game.add.graphics();
 	}
 	
 	click(pointer) {
@@ -415,5 +422,26 @@ class Player extends Phaser.Group {
 		this.rightShoulderJoint.setLimits((this.rightShoulderAngle-1)*Math.PI/180,(this.rightShoulderAngle+1)*Math.PI/180);
 		this.leftElbowJoint.setLimits((this.leftElbowAngle-1)*Math.PI/180,(this.leftElbowAngle+1)*Math.PI/180);
 		this.rightElbowJoint.setLimits((this.rightElbowAngle-1)*Math.PI/180,(this.rightElbowAngle+1)*Math.PI/180);
+		
+		
+		this.lArmLine.clear();
+		this.lArmLine.lineStyle(4, 0xFFFFFF, 1);
+		this.lArmLine.moveTo(this.lArmButton.position.x, this.lArmButton.position.y);
+		this.lArmLine.lineTo(this.leftElbowJoint.bodyA.parent.sprite.position.x, this.leftElbowJoint.bodyA.parent.sprite.position.y);
+		
+		this.rArmLine.clear();
+		this.rArmLine.lineStyle(4, 0xFFFFFF, 1);
+		this.rArmLine.moveTo(this.rArmButton.position.x, this.rArmButton.position.y);
+		this.rArmLine.lineTo(this.rightElbowJoint.bodyA.parent.sprite.position.x, this.rightElbowJoint.bodyA.parent.sprite.position.y);
+		
+		this.lLegLine.clear();
+		this.lLegLine.lineStyle(4, 0xFFFFFF, 1);
+		this.lLegLine.moveTo(this.lLegButton.position.x, this.lLegButton.position.y);
+		this.lLegLine.lineTo(this.leftKneeJoint.bodyA.parent.sprite.position.x, this.leftKneeJoint.bodyA.parent.sprite.position.y);
+		
+		this.rLegLine.clear();
+		this.rLegLine.lineStyle(4, 0xFFFFFF, 1);
+		this.rLegLine.moveTo(this.rLegButton.position.x, this.rLegButton.position.y);
+		this.rLegLine.lineTo(this.rightKneeJoint.bodyA.parent.sprite.position.x, this.rightKneeJoint.bodyA.parent.sprite.position.y);
 	}
 }

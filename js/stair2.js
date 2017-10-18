@@ -119,9 +119,9 @@ stair2State.prototype.update = function() {
 	this.timerText.setText(timeString);
 	this.player.update();
 	
-	// if (this.player.upperbody.x >= 1200) {
-		// game.state.start("Stairs");
-	// }
+	if (this.player.upperbody.x <= 1) {
+		game.state.start("Epilogue");
+	}
 }
 
 stair2State.resetButtonPress = function(thingy, pointer, isDown) {

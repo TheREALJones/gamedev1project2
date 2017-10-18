@@ -12,6 +12,6 @@ stairtoStairState1.prototype.create = function() {
 
 stairtoStairState1.prototype.update = function() {
 	if (game.input.activePointer.isDown) {
-		//game.state.start("Stairs2");
+		game.state.start("Stairs2");
 	}
 }

@@ -119,7 +119,7 @@ stairState.prototype.update = function() {
 	this.player.update();
 	
 	if (this.player.upperbody.x >= 1200) {
-		game.state.start("Stairs2");
+		game.state.start("StairtoStairScreen");
 	}
 }
 

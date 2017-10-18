@@ -24,7 +24,7 @@ titleState.prototype.create = function() {
 
 	let startText = game.add.text(0, 0, " ");
 	let startGameText = game.add.text(665, 655, "Start", {font:'40px Arial', align: "center", fill: '#FFFFFF'});
-
+/*
 	let debugButton = game.add.button(450, 90, "f",  titleState.debugPressed);
 	rectangle = game.add.graphics();
 	debugButton.addChild(rectangle);
@@ -49,7 +49,7 @@ titleState.prototype.create = function() {
 	let dragText = game.add.text(0, 0, "Drag Test");
 	rectangle.addChild(dragText);
 	startText.centerX = rectangle.width/2;
-	startText.centerY = rectangle.height/2;
+	startText.centerY = rectangle.height/2;*/
 }
 
 titleState.prototype.update = function() {

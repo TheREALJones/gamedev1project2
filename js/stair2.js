@@ -119,7 +119,7 @@ stair2State.prototype.update = function() {
 	this.timerText.setText(timeString);
 	this.player.update();
 	
-	if (this.player.upperbody.x <= 1) {
+	if (this.player.upperbody.x <= 250) {
 		game.state.start("Epilogue");
 	}
 }

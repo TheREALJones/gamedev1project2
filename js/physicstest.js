@@ -65,7 +65,7 @@ let clickedBody = 1; */
 testState.prototype.create = function() {
 	
 	
-	this.player = new Player(0,0);
+	this.player = new Player(100,0);
         
     // attach pointer events
     game.input.onDown.add((pointer)=> {

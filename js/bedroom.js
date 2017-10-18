@@ -45,7 +45,7 @@ bedroomState.prototype.create = function(){
 	
 	
 	//DECLARE PLAYER
-	this.player = new Player(0,0);
+	this.player = new Player(100,150);
     // attach pointer events
     game.input.onDown.add((pointer)=> {
 		//Add any other drag selectors to this.
@@ -78,11 +78,9 @@ bedroomState.prototype.create = function(){
 
 	
 	game.add.sprite(-5,180,"bedframe");
-	//terrainCollisionGroup = game.physics.p2.createCollisionGroup();
-
 	
-	bedroomState.addBedCollision(10, 610, 530, 750, terrainCollisionGroup, true);	
-	bedroomState.addBedCollision(0, 745, 1344, 750, terrainCollisionGroup, true); 
+	bedroomState.addBedCollision(10, 610, 530, 750, terrainCollisionGroup);	
+	bedroomState.addBedCollision(0, 745, 1344, 750, terrainCollisionGroup); 
 	
 	
 	let styleText = {font:'20px Arial', align: "center", fill: '#FFFFFF'};
@@ -108,46 +106,15 @@ bedroomState.addBedCollision = function(x1, y1, x2, y2, collisionGroup, debug=fa
 	bedC.body.collides([playerCollisionGroup]);
 }
 
-bedroomState.prototype.click = function(pointer) {
-
-    let bodies = game.physics.p2.hitTest(pointer.position, [head]);
-    
-    // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
-    let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
-    
-    if (bodies.length){
-        let clickedBody = bodies[0];
-        
-        let localPointInBody = [0, 0];
-        // this function takes physicsPos and coverts it to the body's local coordinate system
-        clickedBody.toLocalFrame(localPointInBody, physicsPos);
-        
-        // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createRevoluteConstraint(mouseBody, [0, 0], clickedBody, [game.physics.p2.mpxi(localPointInBody[0]), game.physics.p2.mpxi(localPointInBody[1]) ]);
-    }   
-
-}
-
-bedroomState.prototype.move = function(pointer) {
-
-    // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
-    mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
-    mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
-
-}
-
-
-bedroomState.prototype.release = function(){
-
-    // remove constraint from object's body
-    game.physics.p2.removeConstraint(mouseConstraint);
-}
-
 bedroomState.prototype.update = function() {
 	let elapsedTime = game.math.roundTo((game.time.totalElapsedSeconds() - this.startTime), -2);
 	let timeString = "Time: " + elapsedTime;
 	this.timerText.setText(timeString);
 	this.player.update();
+	
+	if (this.player.upperbody.x >= 1200) {
+		game.state.start("Stairs");
+	}
 }
 
 bedroomState.resetButtonPress = function(thingy, pointer, isDown) {
@@ -155,10 +122,4 @@ bedroomState.resetButtonPress = function(thingy, pointer, isDown) {
 		game.state.start("Bedroom");
 	}
 }
-
-/* bedroomState.endGame = function(){
-	if(player.x === game.world.centerX){
-	game.state.start("Bedroom");
-	}
-	 */
 

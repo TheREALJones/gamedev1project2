@@ -21,7 +21,7 @@ class Player extends Phaser.Group {
 		
 		//game.world.setBounds(0,0,1500,750);
 		game.physics.startSystem(Phaser.Physics.P2JS);
-		game.physics.p2.setBounds(0, 0, 1344, 750)
+		game.physics.p2.setBounds(0, 0, 1344, 750, true, true, true, true, true);
 		
 		game.physics.p2.setImpactEvents(true);
 		game.physics.p2.gravity.y = 550;
@@ -184,8 +184,8 @@ class Player extends Phaser.Group {
 		this.lLegButton.body.collides([game.physics.p2.boundsCollisionGroup]);
 		this.lLegButton.body.setCollisionGroup(controlsCollisionGroup);
 		
-		game.physics.p2.boundsCollideWith = [this.rArmButton.body, this.lArmButton.body, this.rLegButton.body, this.rLegButton.body];
 		//game.physics.p2.updateBoundsCollisionGroup();
+		game.physics.p2.boundsCollideWith = [this.rArmButton.body, this.lArmButton.body, this.rLegButton.body, this.rLegButton.body];
 		
 		// create physics body for mouse which we will use for dragging clicked bodies
 		this.mouseBody = new p2.Body();

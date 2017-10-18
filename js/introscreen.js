@@ -11,6 +11,6 @@ introState.prototype.create = function() {
 
 introState.prototype.update = function() {
 	if (game.input.activePointer.isDown) {
-		game.state.start("Bedroom");
+		game.state.start("IntroScreen2");
 	}
 }

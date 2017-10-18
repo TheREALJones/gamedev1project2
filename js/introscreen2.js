@@ -12,6 +12,6 @@ introState2.prototype.create = function() {
 
 introState2.prototype.update = function() {
 	if (game.input.activePointer.isDown) {
-		game.state.start("Stairs2");
+		game.state.start("Bedroom");
 	}
 }

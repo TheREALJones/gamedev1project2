@@ -10,6 +10,9 @@
 	<script type="text/javascript" src="js/player.js"></script>
 	<script type="text/javascript" src="js/startscreen.js"></script>
 	<script type="text/javascript" src="js/bedroom.js"></script>
+	<script type="text/javascript" src="js/introscreen.js"></script>
+	<script type="text/javascript" src="js/introscreen1.js"></script>
+	<script type="text/javascript" src="js/introscreen2.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -27,6 +30,9 @@
 	game.state.add("Bedroom", bedroomState);
 	game.state.add("Stairs", stairState);
 	game.state.add("StartScreen", startState);
+	game.state.add("IntroScreen", introState);
+	game.state.add("IntroScreen1", introState1);
+	game.state.add("IntroScreen2", introState2);
 	game.state.start("StartScreen");
 
 </script>

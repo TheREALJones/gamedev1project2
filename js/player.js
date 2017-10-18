@@ -11,24 +11,24 @@ class Player extends Phaser.Group {
 		this.add(leftLowerArm);
 		let leftHand = game.add.sprite(500,550,'plrlha');
 		this.add(leftHand);
-		this.upperbody = game.add.sprite(500,400,'plrub');
-		this.add(this.upperbody);
+		let leftFoot = game.add.sprite(500,725,'plrlft');
+		this.add(leftFoot);
+		let leftThigh = game.add.sprite(500,575,'plrlth');
+		this.add(leftThigh);
+		let leftLowerLeg = game.add.sprite(500,650,'plrlll');
+		this.add(leftLowerLeg);
 		this.hips = game.add.sprite(500,500,'plrhip');
 		this.add(this.hips);
 		let torso = game.add.sprite(500,450,'plrtrs');
 		this.add(torso);
-		let leftThigh = game.add.sprite(500,575,'plrlth');
-		this.add(leftThigh);
-		let rightThigh = game.add.sprite(500,575,'plrrth');
-		this.add(rightThigh);
-		let leftLowerLeg = game.add.sprite(500,650,'plrlll');
-		this.add(leftLowerLeg);
-		let rightLowerLeg = game.add.sprite(500,650,'plrrll');
-		this.add(rightLowerLeg);
-		let leftFoot = game.add.sprite(500,725,'plrlft');
-		this.add(leftFoot);
+		this.upperbody = game.add.sprite(500,400,'plrub');
+		this.add(this.upperbody);
 		let rightFoot = game.add.sprite(500,725,'plrrft');
 		this.add(rightFoot);
+		let rightThigh = game.add.sprite(500,575,'plrrth');
+		this.add(rightThigh);
+		let rightLowerLeg = game.add.sprite(500,650,'plrrll');
+		this.add(rightLowerLeg);
 		let rightUpperArm = game.add.sprite(500,450,'plrrua');
 		this.add(rightUpperArm);
 		let rightLowerArm = game.add.sprite(500,500,'plrrla');
@@ -99,10 +99,10 @@ class Player extends Phaser.Group {
 		this.rightKneeJoint = game.physics.p2.createRevoluteConstraint(rightThigh,[0,55],rightLowerLeg,[0,-55]);
 		this.rightKneeJoint.setLimits(-Math.PI/180,Math.PI/180);
 		
-		let leftAnkleJoint = game.physics.p2.createRevoluteConstraint(leftLowerLeg,[0,55],leftFoot,[-10,-5]);
+		let leftAnkleJoint = game.physics.p2.createRevoluteConstraint(leftLowerLeg,[0,55],leftFoot,[5,-18]);
 		leftAnkleJoint.setLimits(-Math.PI/8,Math.PI/8);
 		
-		let rightAnkleJoint = game.physics.p2.createRevoluteConstraint(rightLowerLeg,[0,55],rightFoot,[-10,-5]);
+		let rightAnkleJoint = game.physics.p2.createRevoluteConstraint(rightLowerLeg,[0,55],rightFoot,[5,-18]);
 		rightAnkleJoint.setLimits(-Math.PI/8,Math.PI/8);
 		
 		this.leftShoulderJoint = game.physics.p2.createRevoluteConstraint(this.upperbody,[0,-45],leftUpperArm,[0,-45]);

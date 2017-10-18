@@ -25,13 +25,11 @@ testState.prototype.preload = function() {
 	game.load.spritesheet("button", "assets/button_strip9.png", 128, 128);
 }	
 
-let player;
-
 let playerCollisionGroup;
 let terrainCollisionGroup;
 let controlsCollisionGroup;
 
-let upperbody;
+/* let upperbody;
 let hips;
 
 let leftHipJoint;
@@ -61,12 +59,12 @@ let lLegButton;
 let mouseBody;
 let mouseConstraint;
 
-let clickedBody = 1;
+let clickedBody = 1; */
 
 testState.prototype.create = function() {
 	
 	
-	setupPlayer();
+	this.player = new Player(0,0);
 	
 	
 	
@@ -86,32 +84,56 @@ testState.prototype.create = function() {
 	
 	
 	
-	// create physics body for mouse which we will use for dragging clicked bodies
-    mouseBody = new p2.Body();
-    game.physics.p2.world.addBody(mouseBody);
+	
         
     // attach pointer events
-    game.input.onDown.add(this.click);
-    game.input.onUp.add(this.release);
-    game.input.addMoveCallback(this.move);
+    game.input.onDown.add((pointer)=> {
+
+		//Add any other drag selectors to this.
+		let bodies = game.physics.p2.hitTest(pointer.position, [this.player.rArmButton,this.player.lArmButton,this.player.rLegButton,this.player.lLegButton]);
+		
+		// p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
+		let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
+    
+		if (bodies.length){
+			this.player.clickedBody = bodies[0];
+			
+			let localPointInBody = [0, 0];
+			// this function takes physicsPos and coverts it to the body's local coordinate system
+			this.player.clickedBody.toLocalFrame(localPointInBody, physicsPos);
+			// use a revoluteContraint to attach mouseBody to the clicked body
+			this.player.mouseConstraint = game.physics.p2.createLockConstraint(this.player.mouseBody, this.player.clickedBody);
+		}   
+	});
+    game.input.onUp.add(()=>{
+		// remove constraint from object's body
+		game.physics.p2.removeConstraint(this.player.mouseConstraint);
+		this.player.clickedBody = 1;
+	});
+    game.input.addMoveCallback((pointer)=>{
+
+		// p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
+		this.player.mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
+		this.player.mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
+	});
 }
 
 testState.prototype.click = function(pointer) {
 
 	//Add any other drag selectors to this.
-    let bodies = game.physics.p2.hitTest(pointer.position, [rArmButton,lArmButton,rLegButton,lLegButton]);
+    let bodies = game.physics.p2.hitTest(pointer.position, [this.player.rArmButton,this.player.lArmButton,this.player.rLegButton,this.player.lLegButton]);
     
     // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
     let physicsPos = [game.physics.p2.pxmi(pointer.position.x), game.physics.p2.pxmi(pointer.position.y)];
     
     if (bodies.length){
-        clickedBody = bodies[0];
+        this.player.clickedBody = bodies[0];
         
         let localPointInBody = [0, 0];
         // this function takes physicsPos and coverts it to the body's local coordinate system
-        clickedBody.toLocalFrame(localPointInBody, physicsPos);
+        this.player.clickedBody.toLocalFrame(localPointInBody, physicsPos);
         // use a revoluteContraint to attach mouseBody to the clicked body
-        mouseConstraint = game.physics.p2.createLockConstraint(mouseBody, clickedBody);
+        this.player.mouseConstraint = game.physics.p2.createLockConstraint(this.player.mouseBody, this.player.clickedBody);
     }   
 
 }
@@ -119,8 +141,8 @@ testState.prototype.click = function(pointer) {
 testState.prototype.move = function(pointer) {
 
     // p2 uses different coordinate system, so convert the pointer position to p2's coordinate system
-    mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
-    mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
+    this.player.mouseBody.position[0] = game.physics.p2.pxmi(pointer.position.x);
+    this.player.mouseBody.position[1] = game.physics.p2.pxmi(pointer.position.y);
 
 }
 
@@ -128,236 +150,29 @@ testState.prototype.move = function(pointer) {
 testState.prototype.release = function(){
 
     // remove constraint from object's body
-    game.physics.p2.removeConstraint(mouseConstraint);
-	clickedBody = 1;
+    game.physics.p2.removeConstraint(this.player.mouseConstraint);
+	this.player.clickedBody = 1;
 }
 
-function setupPlayer() {
-	player = new Player(0,0);
-	upperbody = player.upperbody;
-	hips = player.hips;
-	leftHipJoint = player.leftHipJoint;
-	leftKneeJoint = player.leftKneeJoint;
-	rightHipJoint = player.rightHipJoint;
-	rightKneeJoint = player.rightKneeJoint;
-	leftShoulderJoint = player.leftShoulderJoint;
-	leftElbowJoint = player.leftElbowJoint;
-	rightShoulderJoint = player.rightShoulderJoint;
-	rightElbowJoint = player.rightElbowJoint;
+testState.setupPlayer = function() {
 	
-	lArmButton = player.lArmButton;
-	rArmButton = player.rArmButton;
-	lLegButton = player.lLegButton;
-	rLegButton = player.rLegButton;
 }
 
-let leftKneeAngle = 0;
-let leftThighAngle = 0;
-let rightThighAngle = 0;
-let rightKneeAngle = 0;
-let leftShoulderAngle = 0;
-let leftElbowAngle = 0;
-let rightShoulderAngle = 0;
-let rightElbowAngle = 0;
-let rArmSelectConstraint = 1;
-let lArmSelectConstraint = 1;
-let rLegSelectConstraint = 1;
-let lLegSelectConstraint = 1;
+// let leftKneeAngle = 0;
+// let leftThighAngle = 0;
+// let rightThighAngle = 0;
+// let rightKneeAngle = 0;
+// let leftShoulderAngle = 0;
+// let leftElbowAngle = 0;
+// let rightShoulderAngle = 0;
+// let rightElbowAngle = 0;
+// let rArmSelectConstraint = 1;
+// let lArmSelectConstraint = 1;
+// let rLegSelectConstraint = 1;
+// let lLegSelectConstraint = 1;
 
 testState.prototype.update = function() {
-	//Drag Arm test Code
-	let rArmTheta;
-	let rArmPsi;
-	
-	let rArmX = upperbody.position.x - rArmButton.position.x;
-	let rArmYAbs = upperbody.position.y - rArmButton.position.y
-	let rArmY = upperbody.position.y + (Math.cos(upperbody.angle/180*Math.PI))* (-50) - rArmButton.position.y;//-50 is offset of shoulder joing
-	
-	if(clickedBody === 1 && rArmSelectConstraint === 1)
-	{	
-		let offset = [rArmX, rArmYAbs];
-		upperbody.body.toLocalFrame(offset, [rArmX, rArmYAbs]);
-		//offset = [offset[0] * Math.cos(upperbody.angle/180*Math.PI) - offset[1] * Math.sin(upperbody.angle/180*Math.PI), 
-		//		  offset[0] * Math.sin(upperbody.angle/180*Math.PI) + offset[1] * Math.cos(upperbody.angle/180*Math.PI)];
-		rArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,rArmButton,offset);
-	}
-	
-	if(clickedBody !== 1)
-	{
-		if(clickedBody.parent.sprite === rArmButton)
-		{
-			game.physics.p2.removeConstraint(rArmSelectConstraint);
-			rArmSelectConstraint = 1;
-		}
-	}
-	rArmTheta = 180/Math.PI * Math.atan2(rArmX,rArmY);
-	
-	let baseRArmAngl = rArmTheta - upperbody.angle - 90;
-	
-	let armLength = 90;
-	
-	let desiredLength = Math.sqrt(rArmX * rArmX + rArmY * rArmY);
-	if( desiredLength < 2 * armLength)
-		rArmPsi = 180/Math.PI * Math.acos(1 - (desiredLength*desiredLength)/(2*armLength * armLength));
-	else
-		rArmPsi = 180;
-	
-	let desiredRArmAngl = (-baseRArmAngl - (180 - rArmPsi) / 2);
-	if(desiredRArmAngl > 45)
-		rightShoulderAngle = 45;
-	else if(desiredRArmAngl < -225)
-		rightShoulderAngle = -225;
-	else
-		rightShoulderAngle = desiredRArmAngl;
-	
-	rightElbowAngle = -rArmPsi;
-	
-	let lArmTheta;
-	let lArmPsi;
-	
-	let lArmX = upperbody.position.x - lArmButton.position.x;
-	let lArmYAbs = upperbody.position.y - lArmButton.position.y
-	let lArmY = upperbody.position.y + (Math.cos(upperbody.angle/180*Math.PI))* (-50) - lArmButton.position.y;//-50 is offset of shoulder joing
-	
-	if(clickedBody === 1 && lArmSelectConstraint === 1)
-	{	
-		let offset = [lArmX, lArmYAbs];
-		upperbody.body.toLocalFrame(offset, [lArmX, lArmYAbs]);
-		//offset = [offset[0] * Math.cos(upperbody.angle/180*Math.PI) - offset[1] * Math.sin(upperbody.angle/180*Math.PI), 
-		//		  offset[0] * Math.sin(upperbody.angle/180*Math.PI) + offset[1] * Math.cos(upperbody.angle/180*Math.PI)];
-		lArmSelectConstraint = game.physics.p2.createLockConstraint(upperbody,lArmButton,offset);
-	}
-	
-	if(clickedBody !== 1)
-	{
-		if(clickedBody.parent.sprite === lArmButton)
-		{
-			game.physics.p2.removeConstraint(lArmSelectConstraint);
-			lArmSelectConstraint = 1;
-		}
-	}
-	lArmTheta = 180/Math.PI * Math.atan2(lArmX,lArmY);
-	
-	let baseLArmAngl = lArmTheta - upperbody.angle - 90;
-	
-	let lArmDesiredLength = Math.sqrt(lArmX * lArmX + lArmY * lArmY);
-	if( lArmDesiredLength < 2 * armLength)
-		lArmPsi = 180/Math.PI * Math.acos(1 - (lArmDesiredLength*lArmDesiredLength)/(2*armLength * armLength));
-	else
-		lArmPsi = 180;
-	
-	let desiredLArmAngl = (-baseLArmAngl - (180 - lArmPsi) / 2);
-	if(desiredLArmAngl > 45)
-		leftShoulderAngle = 45;
-	else if(desiredLArmAngl < -225)
-		leftShoulderAngle = -225;
-	else
-		leftShoulderAngle = desiredLArmAngl;
-	
-	leftElbowAngle = -lArmPsi;
-	
-	//
-	
-	let rLegTheta;
-	let rLegPsi;
-	
-	let rLegX = hips.position.x - rLegButton.position.x;
-	let rLegYAbs = hips.position.y - rLegButton.position.y
-	let rLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (20) - rLegButton.position.y;//-50 is offset of shoulder joing
-	
-	if(clickedBody === 1 && rLegSelectConstraint === 1)
-	{	
-		let offset = [rLegX, rLegYAbs];
-		hips.body.toLocalFrame(offset, [rLegX, rLegYAbs]);
-		//offset = [offset[0] * Math.cos(hips.angle/180*Math.PI) - offset[1] * Math.sin(hips.angle/180*Math.PI), 
-		//		  offset[0] * Math.sin(hips.angle/180*Math.PI) + offset[1] * Math.cos(hips.angle/180*Math.PI)];
-		rLegSelectConstraint = game.physics.p2.createLockConstraint(hips,rLegButton,offset);
-	}
-	
-	if(clickedBody !== 1)
-	{
-		if(clickedBody.parent.sprite === rLegButton)
-		{
-			game.physics.p2.removeConstraint(rLegSelectConstraint);
-			rLegSelectConstraint = 1;
-		}
-	}
-	rLegTheta = 180/Math.PI * Math.atan2(rLegX,rLegY);
-	
-	let baseRLegAngl = rLegTheta - hips.angle - 90;
-	
-	let legLength = 90;
-	
-	let rLegDesiredLength = Math.sqrt(rLegX * rLegX + rLegY * rLegY);
-	if( rLegDesiredLength < 2 * legLength)
-		rLegPsi = 180/Math.PI * Math.acos(1 - (rLegDesiredLength*rLegDesiredLength)/(2*legLength * legLength));
-	else
-		rLegPsi = 180;
-	
-	let desiredRLegAngl = (-baseRLegAngl + (180 - rLegPsi) / 2);
-	if(desiredRLegAngl > 45)
-		rightThighAngle = 45;
-	else if(desiredRLegAngl < -225)
-		rightThighAngle = -225;
-	else
-		rightThighAngle = desiredRLegAngl;
-	
-	rightKneeAngle = rLegPsi;
-	
-	//
-	
-	let lLegTheta;
-	let lLegPsi;
-	
-	let lLegX = hips.position.x - lLegButton.position.x;
-	let lLegYAbs = hips.position.y - lLegButton.position.y
-	let lLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (20) - lLegButton.position.y;//-50 is offset of shoulder joing
-	
-	if(clickedBody === 1 && lLegSelectConstraint === 1)
-	{	
-		let offset = [lLegX, lLegYAbs];
-		hips.body.toLocalFrame(offset, [lLegX, lLegYAbs]);
-		//offset = [offset[0] * Math.cos(hips.angle/180*Math.PI) - offset[1] * Math.sin(hips.angle/180*Math.PI), 
-		//		  offset[0] * Math.sin(hips.angle/180*Math.PI) + offset[1] * Math.cos(hips.angle/180*Math.PI)];
-		lLegSelectConstraint = game.physics.p2.createLockConstraint(hips,lLegButton,offset);
-	}
-	
-	if(clickedBody !== 1)
-	{
-		if(clickedBody.parent.sprite === lLegButton)
-		{
-			game.physics.p2.removeConstraint(lLegSelectConstraint);
-			lLegSelectConstraint = 1;
-		}
-	}
-	rLegTheta = 180/Math.PI * Math.atan2(lLegX,lLegY);
-	
-	let baseLLegAngl = rLegTheta - hips.angle - 90;
-	
-	let lLegDesiredLength = Math.sqrt(lLegX * lLegX + lLegY * lLegY);
-	if( lLegDesiredLength < 2 * legLength)
-		lLegPsi = 180/Math.PI * Math.acos(1 - (lLegDesiredLength*lLegDesiredLength)/(2*legLength * legLength));
-	else
-		lLegPsi = 180;
-	
-	let desiredLLegAngl = (-baseLLegAngl + (180 - lLegPsi) / 2);
-	if(desiredLLegAngl > 45)
-		leftThighAngle = 45;
-	else if(desiredLLegAngl < -225)
-		leftThighAngle = -225;
-	else
-		leftThighAngle = desiredLLegAngl;
-	
-	leftKneeAngle = lLegPsi;
-		
-	leftKneeJoint.setLimits((leftKneeAngle-1)*Math.PI/180,(leftKneeAngle+1)*Math.PI/180);
-	leftHipJoint.setLimits((leftThighAngle-1)*Math.PI/180,(leftThighAngle+1)*Math.PI/180);
-	rightKneeJoint.setLimits((rightKneeAngle-1)*Math.PI/180,(rightKneeAngle+1)*Math.PI/180);
-	rightHipJoint.setLimits((rightThighAngle-1)*Math.PI/180,(rightThighAngle+1)*Math.PI/180);
-	leftShoulderJoint.setLimits((leftShoulderAngle-1)*Math.PI/180,(leftShoulderAngle+1)*Math.PI/180);
-	rightShoulderJoint.setLimits((rightShoulderAngle-1)*Math.PI/180,(rightShoulderAngle+1)*Math.PI/180);
-	leftElbowJoint.setLimits((leftElbowAngle-1)*Math.PI/180,(leftElbowAngle+1)*Math.PI/180);
-	rightElbowJoint.setLimits((rightElbowAngle-1)*Math.PI/180,(rightElbowAngle+1)*Math.PI/180);
+	this.player.update();
 }
 
 

@@ -29,6 +29,7 @@ let player;
 
 let playerCollisionGroup;
 let terrainCollisionGroup;
+let controlsCollisionGroup;
 
 let upperbody;
 let hips;
@@ -80,6 +81,8 @@ testState.prototype.create = function() {
 	
 	game.physics.p2.updateBoundsCollisionGroup();
 	
+	controlsCollisionGroup = game.physics.p2.createCollisionGroup();
+	
 	qKey = game.input.keyboard.addKey(Phaser.KeyCode.Q);
 	wKey = game.input.keyboard.addKey(Phaser.KeyCode.W);
 	oKey = game.input.keyboard.addKey(Phaser.KeyCode.O);
@@ -95,27 +98,31 @@ testState.prototype.create = function() {
 	
 	rArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	rArmButton.scale.setTo(0.5,0.5);
-	
 	game.physics.p2.enable(rArmButton, false);
 	rArmButton.body.mass = 0.001
+	rArmButton.body.collides([]);
+	rArmButton.body.setCollisionGroup(controlsCollisionGroup);
 	
 	lArmButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	lArmButton.scale.setTo(0.5,0.5);
-	
 	game.physics.p2.enable(lArmButton, false);
-	lArmButton.body.mass = 0.001
+	lArmButton.body.mass = 0.001;
+	lArmButton.body.collides([]);
+	lArmButton.body.setCollisionGroup(controlsCollisionGroup);
 	
 	rLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	rLegButton.scale.setTo(0.5,0.5);
-	
 	game.physics.p2.enable(rLegButton, false);
-	rLegButton.body.mass = 0.001
+	rLegButton.body.mass = 0.001;
+	rLegButton.body.collides([]);
+	rLegButton.body.setCollisionGroup(controlsCollisionGroup);
 	
 	lLegButton = game.add.sprite(game.world.centerX, game.world.centerY, "button");
 	lLegButton.scale.setTo(0.5,0.5);
-	
 	game.physics.p2.enable(lLegButton, false);
-	lLegButton.body.mass = 0.001
+	lLegButton.body.mass = 0.001;
+	lLegButton.body.collides([]);
+	lLegButton.body.setCollisionGroup(controlsCollisionGroup);
 	
 	// create physics body for mouse which we will use for dragging clicked bodies
     mouseBody = new p2.Body();
@@ -281,7 +288,7 @@ testState.prototype.update = function() {
 	
 	let rLegX = hips.position.x - rLegButton.position.x;
 	let rLegYAbs = hips.position.y - rLegButton.position.y
-	let rLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (-50) - rLegButton.position.y;//-50 is offset of shoulder joing
+	let rLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (20) - rLegButton.position.y;//-50 is offset of shoulder joing
 	
 	if(clickedBody === 1 && rLegSelectConstraint === 1)
 	{	
@@ -314,9 +321,9 @@ testState.prototype.update = function() {
 	else if(desiredRLegAngl < -225)
 		rightThighAngle = -225;
 	else
-		rightThighAngle = desiredRArmAngl;
+		rightThighAngle = desiredRLegAngl;
 	
-	rightKneeAngle = -rArmPsi;
+	rightKneeAngle = -rLegPsi;
 	
 	//
 	
@@ -325,7 +332,7 @@ testState.prototype.update = function() {
 	
 	let lLegX = hips.position.x - lLegButton.position.x;
 	let lLegYAbs = hips.position.y - lLegButton.position.y
-	let lLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (-50) - lLegButton.position.y;//-50 is offset of shoulder joing
+	let lLegY = hips.position.y + (Math.cos(hips.angle/180*Math.PI))* (20) - lLegButton.position.y;//-50 is offset of shoulder joing
 	
 	if(clickedBody === 1 && lLegSelectConstraint === 1)
 	{	
@@ -358,7 +365,7 @@ testState.prototype.update = function() {
 	else
 		leftThighAngle = desiredLLegAngl;
 	
-	leftKneeAngle = -lArmPsi;
+	leftKneeAngle = -lLegPsi;
 		
 	leftKneeJoint.setLimits((leftKneeAngle-1)*Math.PI/180,(leftKneeAngle+1)*Math.PI/180);
 	leftHipJoint.setLimits((leftThighAngle-1)*Math.PI/180,(leftThighAngle+1)*Math.PI/180);

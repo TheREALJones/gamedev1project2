@@ -1,9 +1,10 @@
 let stairState = function() {
-	
+
 }
 
 stairState.prototype.preload = function() {
 	game.load.image("stairs", "assets/stairs.png");
+	game.load.image("buttonController", "assets/controllerButton2.png");
 	game.load.audio("stairTheme", "assets/music/stairtheme1.wav");
 }
 
@@ -14,18 +15,18 @@ stairState.prototype.create = function() {
 	music.play();
 
 	game.add.image(0, 0, "stairs");
-	
+
 	game.world.setBounds(0,0,1344,750);
 	game.physics.startSystem(Phaser.Physics.P2JS);
-	
+
 	game.physics.p2.setImpactEvents(true);
 	game.physics.p2.gravity.y = 100;
 
 	let steps = game.add.group();
 	steps.enableBody = true;
-	
+
 	this.terrainCollisionGroup = game.physics.p2.createCollisionGroup();
-	
+
 	stairState.addStep(0, 358, 283, 750, this.terrainCollisionGroup);
 	stairState.addStep(283, 411, 377, 750, this.terrainCollisionGroup);
 	stairState.addStep(377, 464, 471, 750, this.terrainCollisionGroup);
@@ -34,22 +35,17 @@ stairState.prototype.create = function() {
 	stairState.addStep(660, 625, 1150, 750, this.terrainCollisionGroup);
 	stairState.addStep(1150, 679, 1245, 750, this.terrainCollisionGroup);
 	stairState.addStep(1245, 732, 1334, 750, this.terrainCollisionGroup);
-	
-	let restartButton = game.add.button(1200, 40, "f",  stairState.resetButtonPress);
-	
-	let rectangle = game.add.graphics();
-	restartButton.addChild(rectangle);
-	rectangle.beginFill(0xFFFFFF);
-	rectangle.drawRect(0, 0, 120, 40);
-	rectangle.centerX = restartButton.width/2;
-	rectangle.centerY = restartButton.height/2;
-	
-	let restartText = game.add.text(0, 0, "Restart");
-	rectangle.addChild(restartText);
-	restartText.centerX = rectangle.width/2;
-	restartText.centerY = rectangle.height/2;
 
-	this.timerText = game.add.text(50, 40, "Time: ");
+	let styleText = {font:'20px Arial', align: "center", fill: '#FFFFFF'};
+	let restartButton = game.add.button(0, 530, "buttonController",  stairState.resetButtonPress);
+	restartButton.scale.setTo (0.5,0.5);
+
+	let restartText = game.add.text(95, 580, "Restart", styleText);
+
+	let timerBG = game.add.image(0,400, "buttonController");
+	timerBG.scale.setTo (0.5,0.5);
+
+	this.timerText = game.add.text(70, 450, "Time: ", styleText);
 	this.startTime = game.time.totalElapsedSeconds();
 }
 

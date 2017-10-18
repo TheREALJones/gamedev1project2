@@ -1,6 +1,6 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
 	<meta charset="UTF-8" />
     <title>Tobi Philpot</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
@@ -24,7 +24,7 @@
 <script type="text/javascript">
 
 	let game = new Phaser.Game(1334, 750, Phaser.AUTO);
-  
+
 	game.state.add("PhysicsTest", testState);
 	game.state.add("TitleScreen", titleState);
 	game.state.add("Bedroom", bedroomState);
@@ -33,7 +33,7 @@
 	game.state.add("IntroScreen", introState);
 	game.state.add("IntroScreen1", introState1);
 	game.state.add("IntroScreen2", introState2);
-	game.state.start("StartScreen");
+	game.state.start("TitleScreen");
 
 </script>
 

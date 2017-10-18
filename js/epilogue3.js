@@ -11,6 +11,6 @@ epilogueState3.prototype.create = function() {
 
 epilogueState3.prototype.update = function() {
 	if (game.input.activePointer.isDown) {
-		game.state.start("Eplogue4");
+		game.state.start("Epilogue4");
 	}
 }

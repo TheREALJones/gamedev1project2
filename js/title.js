@@ -27,7 +27,7 @@ titleState.prototype.create = function() {
 	let debugButton = game.add.button(450, 90, "f",  titleState.debugPressed);
 	rectangle = game.add.graphics();
 	debugButton.addChild(rectangle);
-	rectangle.beginFill(0xEEEEEE);
+	rectangle.beginFill(0xDDDDDD);
 	rectangle.drawRect(0, 0, 100, 40);
 	rectangle.centerX = debugButton.width/2;
 	rectangle.centerY = debugButton.height/2;
